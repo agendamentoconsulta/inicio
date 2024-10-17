@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    img {
+      display: block;
+      max-width: 150px;
+      margin: 0 auto 20px;
+    }
+
+    h1 {
+      color: #491e9c;
+    }
+
+    .info-text, .terms {
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: justify;
+    }
+
+    #agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: grey;
+      border: none;
+      border-radius: 5px;
+      cursor: not-allowed;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    #agendarBtn.enabled {
+      background-color: #491e9c;
+      cursor: pointer;
+    }
+
+    .checkbox-section {
+      margin-top: 20px;
+    }
+
+    a {
+      color: #491e9c;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    #errorMessage {
+      color: red;
+      display: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Adicione sua imagem aqui -->
+    <img src="logo.png" alt="Logo">
+
+    <h1>Agendamento de sessões</h1>
+
+    <div class="info-text">
+      <p>Os agendamentos são realizados no horário de Brasília.</p>
+      <p>Os agendamentos são realizados apenas para o titular da conta e dependentes, exceto na Psicologia que é apenas para o titular.</p>
+      <p>Em caso de agendamento para terceiros, o titular pode ter sua conta cancelada, conforme as condições de serviço da MediQuo.</p>
+      <p>Em caso de faltas, o cliente poderá ser bloqueado de novos agendamentos no serviço por 30 dias.</p>
+    </div>
+
+    <p class="terms checkbox-section">
+      <input type="checkbox" id="acceptTerms" onclick="toggleButton()"> Ao agendar, declaro que eu li e aceito as normas acima, assim como as 
+      <a href="https://seusite.com/termos" target="_blank">condições de serviço</a>, 
+      <a href="https://seusite.com/politica" target="_blank">política de privacidade</a> e 
+      <a href="https://seusite.com/regras" target="_blank">regras dos serviços da MediQuo</a>.
+    </p>
+
+    <button id="agendarBtn" onclick="agendar()">Agendar</button>
+    <p id="errorMessage">Por gentileza, leia e declare ciência para continuar.</p>
+  </div>
+
+  <script>
+    function toggleButton() {
+      var checkBox = document.getElementById('acceptTerms');
+      var button = document.getElementById('agendarBtn');
+      
+      if (checkBox.checked) {
+        button.disabled = false;
+        button.classList.add('enabled');
+      } else {
+        button.disabled = true;
+        button.classList.remove('enabled');
+      }
+    }
+
+    function agendar() {
+      var checkBox = document.getElementById('acceptTerms');
+      var errorMessage = document.getElementById('errorMessage');
+
+      if (checkBox.checked) {
+        window.location.href = "https://seusite.com/agendar";
+      } else {
+        errorMessage.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>
