@@ -25,6 +25,10 @@
       height: 500px;
       overflow: auto;
       position: relative;
+    }
+
+    .pdf-page {
+      margin-bottom: 10px;
       text-align: center;
     }
 
@@ -47,39 +51,36 @@
   <h1>Leitura de PDF com Opções</h1>
 
   <div id="pdf-controls">
-    <button id="prev-page">Página Anterior</button>
-    <button id="next-page">Próxima Página</button>
     <button id="zoom-in">Aumentar Zoom</button>
     <button id="zoom-out">Diminuir Zoom</button>
-    <span>Página: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <span>Páginas: <span id="page-count"></span></span>
   </div>
 
-  <div id="pdf-viewer">
-    <canvas id="pdf-canvas"></canvas>
-  </div>
+  <div id="pdf-viewer"></div>
 
   <script>
     var url = 'termos.pdf';  // Caminho do PDF na raiz do repositório
 
     var pdfDoc = null,
-        pageNum = 1,
-        pageRendering = false,
-        pageNumPending = null,
         scale = 1.0,
-        canvas = document.getElementById('pdf-canvas'),
-        ctx = canvas.getContext('2d');
+        container = document.getElementById('pdf-viewer');
 
     // Carrega o PDF
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
       pdfDoc = pdfDoc_;
       document.getElementById('page-count').textContent = pdfDoc.numPages;
-      renderPage(pageNum);
+
+      // Renderizar todas as páginas
+      for (var i = 1; i <= pdfDoc.numPages; i++) {
+        renderPage(i);
+      }
     });
 
-    function renderPage(num) {
-      pageRendering = true;
-      pdfDoc.getPage(num).then(function(page) {
+    function renderPage(pageNum) {
+      pdfDoc.getPage(pageNum).then(function(page) {
         var viewport = page.getViewport({ scale: scale });
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
@@ -87,51 +88,23 @@
           canvasContext: ctx,
           viewport: viewport
         };
-        var renderTask = page.render(renderContext);
 
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          if (pageNumPending !== null) {
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
+        var div = document.createElement('div');
+        div.className = 'pdf-page';
+        div.appendChild(canvas);
+        container.appendChild(div);
+
+        page.render(renderContext);
       });
-
-      document.getElementById('page-num').textContent = num;
     }
 
-    function queueRenderPage(num) {
-      if (pageRendering) {
-        pageNumPending = num;
-      } else {
-        renderPage(num);
-      }
-    }
-
-    function onPrevPage() {
-      if (pageNum <= 1) {
-        return;
-      }
-      pageNum--;
-      queueRenderPage(pageNum);
-    }
-
-    document.getElementById('prev-page').addEventListener('click', onPrevPage);
-
-    function onNextPage() {
-      if (pageNum >= pdfDoc.numPages) {
-        return;
-      }
-      pageNum++;
-      queueRenderPage(pageNum);
-    }
-
-    document.getElementById('next-page').addEventListener('click', onNextPage);
-
+    // Funções de zoom
     function zoomIn() {
       scale += 0.1;
-      renderPage(pageNum);
+      container.innerHTML = ''; // Limpa o container
+      for (var i = 1; i <= pdfDoc.numPages; i++) {
+        renderPage(i);
+      }
     }
 
     document.getElementById('zoom-in').addEventListener('click', zoomIn);
@@ -139,7 +112,10 @@
     function zoomOut() {
       if (scale > 0.2) {
         scale -= 0.1;
-        renderPage(pageNum);
+        container.innerHTML = ''; // Limpa o container
+        for (var i = 1; i <= pdfDoc.numPages; i++) {
+          renderPage(i);
+        }
       }
     }
 
