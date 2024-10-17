@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Condições de serviço</title>
+  <title>Termos de serviço MediQuo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,6 +15,11 @@
       justify-content: center;
     }
 
+    h1 {
+      color: #491e9c;
+      font-size: 22px; /* Reduzi um ponto */
+    }
+
     #pdf-controls {
       margin-top: 20px;
     }
@@ -22,7 +27,7 @@
     #pdf-viewer {
       border: 1px solid #ccc;
       width: 100%;
-      height: 500px;
+      height: 100vh; /* Ocupar a tela inteira no mobile */
       overflow: auto;
       position: relative;
     }
@@ -41,6 +46,23 @@
       padding: 10px;
       font-size: 14px;
       margin: 5px;
+      background-color: #491e9c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e1a86;
+    }
+
+    /* Ajusta a visualização para mobile */
+    @media (max-width: 768px) {
+      #pdf-viewer {
+        width: 100%;
+        height: 100vh; /* Ocupar a tela inteira no mobile */
+      }
     }
   </style>
   <!-- Adicione o PDF.js por CDN -->
@@ -48,7 +70,7 @@
 </head>
 <body>
 
-  <h1>Leitura de PDF com Opções</h1>
+  <h1>Termos de serviço MediQuo</h1>
 
   <div id="pdf-controls">
     <button id="zoom-in">+ Zoom</button>
