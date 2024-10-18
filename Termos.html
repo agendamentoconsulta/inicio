@@ -18,10 +18,12 @@
     h1 {
       color: #491e9c;
       font-size: 22px; /* Reduzi um ponto */
+      text-align: center;
     }
 
     #pdf-controls {
       margin-top: 20px;
+      text-align: center; /* Centralizar os botões */
     }
 
     #pdf-viewer {
@@ -75,7 +77,6 @@
   <div id="pdf-controls">
     <button id="zoom-in">+ Zoom</button>
     <button id="zoom-out">- Zoom</button>
-    <span>Páginas: <span id="page-count"></span></span>
   </div>
 
   <div id="pdf-viewer"></div>
@@ -90,7 +91,6 @@
     // Carrega o PDF
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
       pdfDoc = pdfDoc_;
-      document.getElementById('page-count').textContent = pdfDoc.numPages;
 
       // Renderizar todas as páginas
       for (var i = 1; i <= pdfDoc.numPages; i++) {
