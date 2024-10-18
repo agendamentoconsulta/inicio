@@ -15,7 +15,19 @@
     h1 {
       color: #491e9c; /* Cor roxa para o título */
       font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .subtext {
+      color: #491e9c; /* Cor roxa para o texto pequeno */
+      font-size: 12px;
       margin-bottom: 20px;
+    }
+
+    .footer-logo img {
+      width: 150px; /* Ajuste o tamanho da logo */
+      height: auto;
+      margin-bottom: 40px; /* Espaço abaixo da logo */
     }
 
     .image-button {
@@ -68,18 +80,20 @@
       max-width: 100%;
       height: auto;
     }
-
-    .footer-logo img {
-      width: 150px; /* Ajuste o tamanho da logo */
-      height: auto;
-      margin-top: 40px;
-    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 </head>
 <body>
 
   <h1>Regras dos serviços</h1>
+
+  <!-- Texto pequeno abaixo do título principal -->
+  <p class="subtext">Basta clicar em um dos botões para acessar as regras</p>
+
+  <!-- Logo abaixo do título e do texto pequeno -->
+  <div class="footer-logo">
+    <img src="logo.png" alt="Logo">
+  </div>
 
   <div class="image-button" onclick="openPDF('dermatologia.pdf')">
     <img src="dermatologia.png" alt="PDF 1">
@@ -99,10 +113,6 @@
       <button class="close-button" onclick="closePDF()">X</button>
       <div id="pdf-render"></div>
     </div>
-  </div>
-
-  <div class="footer-logo">
-    <img src="logo.png" alt="Logo">
   </div>
 
   <script>
