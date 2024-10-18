@@ -33,12 +33,13 @@
       height: 100vh; /* Ocupar a tela inteira no mobile */
       overflow: auto;
       position: relative;
+      text-align: center; /* Centraliza o conteúdo dentro do container */
       margin: 0 auto; /* Centralizar e manter margens laterais */
     }
 
     .pdf-page {
       margin-bottom: 10px;
-      text-align: center;
+      display: inline-block; /* Permite centralização do canvas */
     }
 
     canvas {
@@ -66,6 +67,7 @@
       #pdf-viewer {
         width: 95%; /* Ajuste também no mobile */
         height: 100vh; /* Ocupar a tela inteira no mobile */
+        text-align: center; /* Garantir que o conteúdo seja centralizado no mobile */
       }
     }
   </style>
