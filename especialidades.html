@@ -21,13 +21,21 @@
     .subtext {
       color: #491e9c; /* Cor roxa para o texto pequeno */
       font-size: 12px;
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
 
     .footer-logo img {
       width: 150px; /* Ajuste o tamanho da logo */
       height: auto;
-      margin-bottom: 40px; /* Espaço abaixo da logo */
+      margin-bottom: 20px; /* Espaço abaixo da logo */
+    }
+
+    /* Estilo para a caixa ao redor dos botões */
+    .button-container {
+      border: 2px solid #491e9c; /* Borda roxa ao redor dos botões */
+      padding: 20px;
+      display: inline-block;
+      margin-top: 20px;
     }
 
     .image-button {
@@ -87,25 +95,28 @@
 
   <h1>Regras dos serviços</h1>
 
-  <!-- Texto pequeno abaixo do título principal -->
-  <p class="subtext">Basta clicar em um dos botões para acessar as regras</p>
-
-  <!-- Logo abaixo do título e do texto pequeno -->
+  <!-- Logo abaixo do título -->
   <div class="footer-logo">
     <img src="logo.png" alt="Logo">
   </div>
 
-  <div class="image-button" onclick="openPDF('dermatologia.pdf')">
-    <img src="dermatologia.png" alt="PDF 1">
-  </div>
-  <div class="image-button" onclick="openPDF('educacaofisica.pdf')">
-    <img src="educacaofisica.png" alt="PDF 2">
-  </div>
-  <div class="image-button" onclick="openPDF('nutricao.pdf')">
-    <img src="nutricao.png" alt="PDF 3">
-  </div>
-  <div class="image-button" onclick="openPDF('psicologia.pdf')">
-    <img src="psicologia.png" alt="PDF 4">
+  <!-- Texto pequeno abaixo da logo -->
+  <p class="subtext">Basta clicar em um dos botões para acessar as regras</p>
+
+  <!-- Caixa roxa ao redor dos botões -->
+  <div class="button-container">
+    <div class="image-button" onclick="openPDF('dermatologia.pdf')">
+      <img src="dermatologia.png" alt="PDF 1">
+    </div>
+    <div class="image-button" onclick="openPDF('educacaofisica.pdf')">
+      <img src="educacaofisica.png" alt="PDF 2">
+    </div>
+    <div class="image-button" onclick="openPDF('nutricao.pdf')">
+      <img src="nutricao.png" alt="PDF 3">
+    </div>
+    <div class="image-button" onclick="openPDF('psicologia.pdf')">
+      <img src="psicologia.png" alt="PDF 4">
+    </div>
   </div>
 
   <div id="pdf-viewer">
