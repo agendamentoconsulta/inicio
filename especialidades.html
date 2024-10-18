@@ -12,6 +12,12 @@
       padding: 20px;
     }
 
+    h1 {
+      color: #491e9c; /* Cor roxa para o título */
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
     .image-button {
       display: inline-block;
       margin: 20px;
@@ -62,6 +68,12 @@
       max-width: 100%;
       height: auto;
     }
+
+    .footer-logo img {
+      width: 150px; /* Ajuste o tamanho da logo */
+      height: auto;
+      margin-top: 40px;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 </head>
@@ -87,6 +99,10 @@
       <button class="close-button" onclick="closePDF()">X</button>
       <div id="pdf-render"></div>
     </div>
+  </div>
+
+  <div class="footer-logo">
+    <img src="logo.png" alt="Logo">
   </div>
 
   <script>
