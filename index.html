@@ -14,19 +14,19 @@
     .container {
       max-width: 500px;
       margin: 0 auto;
-      text-align: left; /* O texto dentro do container ainda ficará à esquerda */
+      text-align: left;
     }
 
     img {
       display: block;
       max-width: 150px;
-      margin: 20px auto 0; /* Margem ajustada para ficar acima do título */
+      margin: 20px auto 0;
     }
 
     h1 {
       color: #491e9c;
-      text-align: center; /* Centraliza o título */
-      font-size: 30.5px; /* Tamanho do título diminuído */
+      text-align: center;
+      font-size: 30.5px;
     }
 
     .info-text, .terms {
@@ -70,14 +70,27 @@
       display: none;
       margin-top: 10px;
     }
+
+    /* Campo de nome */
+    #nameField {
+      margin-top: 20px;
+    }
+
+    #nameInput {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Agendamento de consultas</h1> <!-- Título acima da logo -->
+    <h1>Agendamento de consultas</h1>
 
-    <!-- Adiciona sua imagem aqui -->
     <img src="logo.png" alt="Logo">
 
     <div class="info-text">
@@ -86,7 +99,13 @@
       <p>Os agendamentos são realizados apenas para o titular da conta e dependentes (filhos menores de 18 anos), exceto na psicologia que é apenas para o titular.</p>
       <p>Em caso de agendamentos ou consultas para terceiros, o titular terá sua licença bloqueada por 30 dias e poderá ter a conta cancelada, conforme as condições de serviço da MediQuo.</p>
       <p>Em caso de faltas sem justificativa, a sessão será considerada realizada e o cliente será bloqueado de novos agendamentos no serviço por 30 dias em caso de uma segunda falta.</p>
-      <p>Faltas justificadas são limitadas a 1 por serviço e a sessão não sera considerada realizada. O aviso precisa ser em um mínimo de 4 horas para consultas vespertinas e noturnas e até no dia anterior, para matutinas.</p>
+      <p>Faltas justificadas são limitadas a 1 por serviço e a sessão não será considerada realizada. O aviso precisa ser em um mínimo de 4 horas para consultas vespertinas e noturnas e até no dia anterior, para matutinas.</p>
+    </div>
+
+    <!-- Campo para inserir nome -->
+    <div id="nameField">
+      <label for="nameInput">Digite seu nome:</label>
+      <input type="text" id="nameInput" placeholder="Seu nome completo" oninput="toggleButton()">
     </div>
 
     <p class="terms checkbox-section">
@@ -96,31 +115,56 @@
       <a href="especialidades.html" target="_blank">regras dos serviços</a> da MediQuo.
     </p>
 
-    <button id="agendarBtn" onclick="agendar()">Agendar</button>
+    <button id="agendarBtn" onclick="submitForm()">Agendar</button>
     <p id="errorMessage">Por gentileza, leia e declare ciência para continuar.</p>
   </div>
 
   <script>
     function toggleButton() {
       var checkBox = document.getElementById('acceptTerms');
+      var nameInput = document.getElementById('nameInput').value.trim();
       var button = document.getElementById('agendarBtn');
 
-      if (checkBox.checked) {
+      if (checkBox.checked && nameInput) {
         button.disabled = false;
         button.classList.add('enabled');
+        button.style.cursor = 'pointer';
       } else {
         button.disabled = true;
         button.classList.remove('enabled');
+        button.style.cursor = 'not-allowed';
       }
     }
 
-    function agendar() {
+    async function submitForm() {
       var checkBox = document.getElementById('acceptTerms');
+      var nameInput = document.getElementById('nameInput').value.trim();
       var errorMessage = document.getElementById('errorMessage');
 
-      if (checkBox.checked) {
-        window.location.href = "https://mediquo.reservio.com/";
+      if (checkBox.checked && nameInput) {
+        // Aqui você poderia adicionar o envio de dados para o Google Sheets usando Google Apps Script.
+        try {
+          let response = await fetch("https://script.google.com/macros/s/AKfycbw8h4KezyIPcrLFQ4KiuZyHOxTC6TDEENiCb_sMF2HGbi_DorWHk-0tPQjn6YKlsvyc/exec", {
+            method: "POST",
+            body: JSON.stringify({ nome: nameInput }),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          let result = await response.json();
+          if (result.status === "success") {
+            window.location.href = "https://mediquo.reservio.com/";
+          } else {
+            errorMessage.textContent = "Erro ao registrar o nome.";
+            errorMessage.style.display = 'block';
+          }
+        } catch (error) {
+          console.error("Erro ao enviar o formulário:", error);
+          errorMessage.textContent = "Erro ao conectar ao servidor.";
+          errorMessage.style.display = 'block';
+        }
       } else {
+        errorMessage.textContent = "Por gentileza, preencha seu nome e aceite as normas.";
         errorMessage.style.display = 'block';
       }
     }
