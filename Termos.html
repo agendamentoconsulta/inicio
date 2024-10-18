@@ -21,11 +21,6 @@
       text-align: center;
     }
 
-    #pdf-controls {
-      margin-top: 20px;
-      text-align: center;
-    }
-
     #pdf-viewer {
       border: 1px solid #ccc;
       width: 95%;
@@ -39,7 +34,7 @@
 
     .pdf-page {
       margin-bottom: 10px;
-      display: block; /* Trocar inline-block por block para garantir que as páginas fiquem empilhadas */
+      display: block;
       text-align: center;
     }
 
@@ -50,19 +45,10 @@
       height: auto;
     }
 
-    button {
-      padding: 10px;
-      font-size: 14px;
-      margin: 5px;
-      background-color: #491e9c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #3e1a86;
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
     }
 
     @media (max-width: 768px) {
@@ -79,10 +65,8 @@
 
   <h1>Termos e condições de serviço MediQuo</h1>
 
-  <div id="pdf-controls">
-    <button id="zoom-in">+ Zoom</button>
-    <button id="zoom-out">- Zoom</button>
-  </div>
+  <!-- Adiciona a logo aqui -->
+  <img src="logo.png" alt="Logo MediQuo">
 
   <div id="pdf-viewer"></div>
 
@@ -122,28 +106,6 @@
         page.render(renderContext);
       });
     }
-
-    function zoomIn() {
-      scale += 0.1;
-      container.innerHTML = '';
-      for (var i = 1; i <= pdfDoc.numPages; i++) {
-        renderPage(i);
-      }
-    }
-
-    document.getElementById('zoom-in').addEventListener('click', zoomIn);
-
-    function zoomOut() {
-      if (scale > 0.2) {
-        scale -= 0.1;
-        container.innerHTML = '';
-        for (var i = 1; i <= pdfDoc.numPages; i++) {
-          renderPage(i);
-        }
-      }
-    }
-
-    document.getElementById('zoom-out').addEventListener('click', zoomOut);
   </script>
 </body>
 </html>
