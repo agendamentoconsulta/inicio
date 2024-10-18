@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Termos e condições de serviço MediQuo</title> <!-- Título corrigido -->
+  <title>Termos e condições de serviço MediQuo</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -17,38 +17,37 @@
 
     h1 {
       color: #491e9c;
-      font-size: 22px; /* Reduzi um ponto */
+      font-size: 22px;
       text-align: center;
     }
 
     #pdf-controls {
       margin-top: 20px;
-      text-align: center; /* Centralizar os botões */
+      text-align: center;
     }
 
     #pdf-viewer {
       border: 1px solid #ccc;
-      width: 95%; /* Reduzido para 95% para margens menores */
-      max-width: 1200px; /* Limite máximo de largura */
-      height: 100vh; /* Ocupar a tela inteira no mobile */
+      width: 95%;
+      max-width: 1200px;
+      height: 100vh;
       overflow: auto;
       position: relative;
-      text-align: center; /* Centraliza o conteúdo dentro do container */
-      margin: 0 auto; /* Centralizar e manter margens laterais */
-      display: flex;
-      justify-content: center; /* Centraliza o conteúdo */
+      text-align: center;
+      margin: 0 auto;
     }
 
     .pdf-page {
       margin-bottom: 10px;
-      display: inline-block; /* Permite centralização do canvas */
+      display: block; /* Trocar inline-block por block para garantir que as páginas fiquem empilhadas */
+      text-align: center;
     }
 
     canvas {
       display: block;
-      max-width: 100%; /* O canvas não ultrapassa o tamanho da tela */
-      height: auto;
       margin: 0 auto;
+      max-width: 100%;
+      height: auto;
     }
 
     button {
@@ -66,23 +65,19 @@
       background-color: #3e1a86;
     }
 
-    /* Ajusta a visualização para mobile */
     @media (max-width: 768px) {
       #pdf-viewer {
-        width: 95%; /* Ajuste também no mobile */
-        height: 100vh; /* Ocupar a tela inteira no mobile */
-        text-align: center; /* Garantir que o conteúdo seja centralizado no mobile */
-        display: flex;
-        justify-content: center; /* Centraliza o conteúdo no mobile */
+        width: 95%;
+        height: 100vh;
+        text-align: center;
       }
     }
   </style>
-  <!-- Adicione o PDF.js por CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 </head>
 <body>
 
-  <h1>Termos e condições de serviço MediQuo</h1> <!-- H1 corrigido -->
+  <h1>Termos e condições de serviço MediQuo</h1>
 
   <div id="pdf-controls">
     <button id="zoom-in">+ Zoom</button>
@@ -92,17 +87,15 @@
   <div id="pdf-viewer"></div>
 
   <script>
-    var url = 'termos.pdf';  // Caminho do PDF na raiz do repositório
+    var url = 'termos.pdf';
 
     var pdfDoc = null,
         scale = 1.0,
         container = document.getElementById('pdf-viewer');
 
-    // Carrega o PDF
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
       pdfDoc = pdfDoc_;
 
-      // Renderizar todas as páginas
       for (var i = 1; i <= pdfDoc.numPages; i++) {
         renderPage(i);
       }
@@ -114,7 +107,7 @@
         var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
         canvas.height = viewport.height;
-        canvas.width = Math.min(viewport.width, window.innerWidth * 0.95); // Garante que a largura não ultrapasse a tela no mobile
+        canvas.width = viewport.width;
 
         var renderContext = {
           canvasContext: ctx,
@@ -130,10 +123,9 @@
       });
     }
 
-    // Funções de zoom
     function zoomIn() {
       scale += 0.1;
-      container.innerHTML = ''; // Limpa o container
+      container.innerHTML = '';
       for (var i = 1; i <= pdfDoc.numPages; i++) {
         renderPage(i);
       }
@@ -144,7 +136,7 @@
     function zoomOut() {
       if (scale > 0.2) {
         scale -= 0.1;
-        container.innerHTML = ''; // Limpa o container
+        container.innerHTML = '';
         for (var i = 1; i <= pdfDoc.numPages; i++) {
           renderPage(i);
         }
