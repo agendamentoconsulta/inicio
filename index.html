@@ -3,126 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendamento</title>
+  <title>Regras dos serviços</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
+      margin: 0;
       padding: 20px;
     }
 
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      text-align: left; /* O texto dentro do container ainda ficará à esquerda */
-    }
-
-    img {
-      display: block;
-      max-width: 150px;
-      margin: 20px auto 0; /* Margem ajustada para ficar acima do título */
-    }
-
     h1 {
-      color: #491e9c;
-      text-align: center; /* Centraliza o título */
-      font-size: 30.5px; /* Tamanho do título diminuído */
+      color: #491e9c; /* Cor roxa para o título */
+      font-size: 28px; /* Aumento moderado do tamanho do título */
+      margin-bottom: 10px;
     }
 
-    .info-text, .terms {
-      font-size: 14px;
-      margin-top: 20px;
-      text-align: justify;
-    }
-
-    #agendarBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: grey;
-      border: none;
-      border-radius: 5px;
-      cursor: not-allowed;
-      width: 100%;
+    .subtext {
+      color: #491e9c; /* Cor roxa para o texto pequeno */
+      font-size: 16px; /* Aumento moderado do tamanho do texto explicativo */
       margin-top: 20px;
     }
 
-    #agendarBtn.enabled {
-      background-color: #491e9c;
+    .footer-logo img {
+      width: 150px; /* Ajuste o tamanho da logo */
+      height: auto;
+      margin-bottom: 20px; /* Espaço abaixo da logo */
+    }
+
+    /* Estilo para a caixa ao redor dos botões */
+    .button-container {
+      border: 2px solid #491e9c; /* Borda roxa ao redor dos botões */
+      padding: 20px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+
+    .image-button {
+      display: inline-block;
+      margin: 20px;
       cursor: pointer;
     }
 
-    .checkbox-section {
-      margin-top: 20px;
+    .image-button img {
+      width: 100px; /* Ajuste o tamanho da imagem conforme necessário */
+      height: auto;
     }
 
-    a {
-      color: #491e9c;
-      text-decoration: none;
+    #pdf-viewer {
+      display: none; /* Oculta o visualizador de PDF inicialmente */
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .pdf-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      position: relative;
     }
 
-    #errorMessage {
-      color: red;
-      display: none;
-      margin-top: 10px;
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Agendamento de consultas</h1> <!-- Título acima da logo -->
+  <h1>Regras dos serviços</h1>
 
-    <!-- Adiciona sua imagem aqui -->
+  <!-- Logo abaixo do título -->
+  <div class="footer-logo">
     <img src="logo.png" alt="Logo">
+  </div>
 
-    <div class="info-text">
-      <p>Os agendamentos são realizados no horário de Brasília.</p>
-      <p>É dever do cliente utilizar o nome no agendamento conforme seus dados no perfil do aplicativo MediQuo. Caso utilize nomes distintos e a consulta não seja realizada por divergência dos dados, o profissional é isento de responsabilidade.</p>
-      <p>Os agendamentos são realizados apenas para o titular da conta e dependentes (filhos menores de 18 anos), exceto na psicologia que é apenas para o titular.</p>
-      <p>Em caso de agendamentos ou consultas para terceiros, o titular terá sua licença bloqueada por 30 dias e poderá ter a conta cancelada, conforme as condições de serviço da MediQuo.</p>
-      <p>Em caso de faltas sem justificativa, a sessão será considerada realizada e o cliente será bloqueado de novos agendamentos no serviço por 30 dias em caso de uma segunda falta.</p>
-      <p>Faltas justificadas são limitadas a 1 por serviço e a sessão não sera considerada realizada. O aviso precisa ser em um mínimo de 4 horas para consultas vespertinas e noturnas e até no dia anterior, para matutinas.</p>
+  <!-- Texto pequeno abaixo da logo -->
+  <p class="subtext">Basta clicar em um dos botões para acessar as regras</p>
+
+  <!-- Caixa roxa ao redor dos botões -->
+  <div class="button-container">
+    <div class="image-button" onclick="openPDF('dermatologia.pdf')">
+      <img src="dermatologia.png" alt="PDF 1">
     </div>
+    <div class="image-button" onclick="openPDF('educacaofisica.pdf')">
+      <img src="educacaofisica.png" alt="PDF 2">
+    </div>
+    <div class="image-button" onclick="openPDF('nutricao.pdf')">
+      <img src="nutricao.png" alt="PDF 3">
+    </div>
+    <div class="image-button" onclick="openPDF('psicologia.pdf')">
+      <img src="psicologia.png" alt="PDF 4">
+    </div>
+  </div>
 
-    <p class="terms checkbox-section">
-      <input type="checkbox" id="acceptTerms" onclick="toggleButton()"> Ao agendar, declaro que eu li e aceito as normas acima, assim como as 
-      <a href="termos.html" target="_blank">condições de serviço</a>, 
-      <a href="privacidade.html" target="_blank">política de privacidade</a> e 
-      <a href="especialidades.html" target="_blank">regras dos serviços da MediQuo</a>.
-    </p>
+  <p class="subtext">Ao agendar, declaro que eu li e aceito as normas acima, assim como as 
+    <a href="https://seusite.com/regras" target="_blank">regras dos serviços</a> da MediQuo.</p>
 
-    <button id="agendarBtn" onclick="agendar()">Agendar</button>
-    <p id="errorMessage">Por gentileza, leia e declare ciência para continuar.</p>
+  <div id="pdf-viewer">
+    <div class="pdf-container">
+      <button class="close-button" onclick="closePDF()">X</button>
+      <div id="pdf-render"></div>
+    </div>
   </div>
 
   <script>
-    function toggleButton() {
-      var checkBox = document.getElementById('acceptTerms');
-      var button = document.getElementById('agendarBtn');
-      
-      if (checkBox.checked) {
-        button.disabled = false;
-        button.classList.add('enabled');
-      } else {
-        button.disabled = true;
-        button.classList.remove('enabled');
-      }
+    const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfRender = document.getElementById('pdf-render');
+
+    function openPDF(pdfFile) {
+      pdfViewer.style.display = 'flex'; // Exibe o visualizador de PDF
+      pdfRender.innerHTML = ''; // Limpa o conteúdo anterior
+
+      const loadingTask = pdfjsLib.getDocument(pdfFile);
+      loadingTask.promise.then(pdf => {
+        // Renderiza todas as páginas do PDF
+        for (let i = 1; i <= pdf.numPages; i++) {
+          renderPage(pdf, i);
+        }
+      });
     }
 
-    function agendar() {
-      var checkBox = document.getElementById('acceptTerms');
-      var errorMessage = document.getElementById('errorMessage');
+    function renderPage(pdf, pageNum) {
+      pdf.getPage(pageNum).then(page => {
+        const scale = 1.5; // Ajuste a escala conforme necessário
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-      if (checkBox.checked) {
-        window.location.href = "https://mediquo.reservio.com/";
-      } else {
-        errorMessage.style.display = 'block';
-      }
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        pdfRender.appendChild(canvas);
+        page.render(renderContext);
+      });
+    }
+
+    function closePDF() {
+      pdfViewer.style.display = 'none'; // Oculta o visualizador
+      pdfRender.innerHTML = ''; // Limpa o conteúdo do visualizador
     }
   </script>
 
