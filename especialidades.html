@@ -57,7 +57,13 @@
       border-radius: 5px;
       padding: 5px 10px;
     }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
 </head>
 <body>
 
@@ -79,23 +85,49 @@
   <div id="pdf-viewer">
     <div class="pdf-container">
       <button class="close-button" onclick="closePDF()">X</button>
-      <iframe id="pdf-frame" width="100%" height="500px" style="border: none;"></iframe>
+      <div id="pdf-render"></div>
     </div>
   </div>
 
   <script>
+    const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfRender = document.getElementById('pdf-render');
+
     function openPDF(pdfFile) {
-      const pdfViewer = document.getElementById('pdf-viewer');
-      const pdfFrame = document.getElementById('pdf-frame');
-      pdfFrame.src = pdfFile; // Define o src do iframe como o arquivo PDF
       pdfViewer.style.display = 'flex'; // Exibe o visualizador de PDF
+      pdfRender.innerHTML = ''; // Limpa o conteúdo anterior
+
+      const loadingTask = pdfjsLib.getDocument(pdfFile);
+      loadingTask.promise.then(pdf => {
+        // Renderiza todas as páginas do PDF
+        for (let i = 1; i <= pdf.numPages; i++) {
+          renderPage(pdf, i);
+        }
+      });
+    }
+
+    function renderPage(pdf, pageNum) {
+      pdf.getPage(pageNum).then(page => {
+        const scale = 1.5; // Ajuste a escala conforme necessário
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        pdfRender.appendChild(canvas);
+        page.render(renderContext);
+      });
     }
 
     function closePDF() {
-      const pdfViewer = document.getElementById('pdf-viewer');
-      const pdfFrame = document.getElementById('pdf-frame');
-      pdfFrame.src = ''; // Limpa o src do iframe
-      pdfViewer.style.display = 'none'; // Oculta o visualizador de PDF
+      pdfViewer.style.display = 'none'; // Oculta o visualizador
+      pdfRender.innerHTML = ''; // Limpa o conteúdo do visualizador
     }
   </script>
 
