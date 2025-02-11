@@ -9,26 +9,20 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
-      margin-top: 0; /* Reduzindo a margem superior do body */
+      margin-top: 0;
     }
 
     .container {
       max-width: 500px;
       margin: 0 auto;
-      text-align: left; /* O texto dentro do container ainda ficará à esquerda */
-    }
-
-    img {
-      display: block;
-      max-width: 150px;
-      margin: 20px auto 0; /* Margem ajustada para ficar acima do título */
+      text-align: left;
     }
 
     h1 {
       color: #491e9c;
-      text-align: center; /* Centraliza o título */
-      font-size: 30.5px; /* Tamanho do título diminuído */
-      margin-top: 0; /* Remove a margem superior */
+      text-align: center;
+      font-size: 30.5px;
+      margin-top: 0;
     }
 
     .info-text, .terms {
@@ -37,7 +31,7 @@
       text-align: justify;
     }
 
-    #agendarBtn {
+    .agendarBtn {
       padding: 10px 20px;
       font-size: 16px;
       color: white;
@@ -45,11 +39,10 @@
       border: none;
       border-radius: 5px;
       cursor: not-allowed;
-      width: 100%;
-      margin-top: 20px;
+      /* O width 100% foi removido para adequar ao grid */
     }
 
-    #agendarBtn.enabled {
+    .agendarBtn.enabled {
       background-color: #491e9c;
       cursor: pointer;
     }
@@ -72,17 +65,25 @@
       display: none;
       margin-top: 10px;
     }
+
+    /* Estilização para dispor os botões em grid */
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Agendamento de consultas</h1> <!-- Título acima da logo -->
+    <h1>Agendamento de consultas</h1>
 
     <div class="info-text">
       <p>O cliente deve enviar uma mensagem pelo aplicativo para o profissional imediatamente após o agendamento e também no dia e horário marcados, garantindo que o profissional possa acessar o usuário e realizar a consulta. Caso não o faça e perca a consulta, essa ausência será considerada como falta não justificada.</p>
       <p>Os agendamentos são realizados no horário de Brasília.</p>
-      <p>É dever do cliente utilizar o nome no agendamento conforme seus dados no perfil do aplicativo. Se utilizar nomes distintos e a consulta não ser realizada por divergência de dados, o profissional é isento de responsabilidade e será considerado falta/sessão realizada.</p>
+      <p>É dever do cliente utilizar o nome no agendamento conforme seus dados no perfil do aplicativo. Se utilizar nomes distintos e a consulta não for realizada por divergência de dados, o profissional é isento de responsabilidade e será considerado falta/sessão realizada.</p>
       <p>Os agendamentos são realizados apenas para o titular da conta e dependentes (filhos menores de 18 anos), exceto na psicologia que é apenas para o titular.</p>
       <p>Em caso de agendamentos ou consultas para terceiros, o titular terá sua licença bloqueada por 30 dias e poderá ter a conta cancelada.</p>
       <p>Em caso de faltas sem justificativa, a sessão será considerada realizada e o cliente será bloqueado de novos agendamentos no serviço por 30 dias em caso de uma segunda falta.</p>
@@ -91,34 +92,45 @@
     </div>
 
     <p class="terms checkbox-section">
-      <input type="checkbox" id="acceptTerms" onclick="toggleButton()"> Ao agendar, declaro que eu li e aceito as normas acima, as condições de serviço, política de privacidade e 
+      <input type="checkbox" id="acceptTerms" onclick="toggleButton()"> Ao agendar, declaro que li e aceito as normas acima e as 
       <a href="regras.html" target="_blank">regras dos serviços</a> do aplicativo.
     </p>
 
-    <button id="agendarBtn" onclick="agendar()">Agendar</button>
+    <!-- Container dos botões em grid -->
+    <div class="button-grid">
+      <button class="agendarBtn" onclick="agendar('https://agendamento.reservio.com/medicina1/services/e1c67422-6bb2-4e2c-8999-9b5903dc91bf')">Dermatologia</button>
+      <button class="agendarBtn" onclick="agendar('https://agendamento.reservio.com/psicologia1')">Nutrição</button>
+      <button class="agendarBtn" onclick="agendar('https://agendamento.reservio.com/psicologia1')">Psicologia</button>
+      <button class="agendarBtn" onclick="agendar('https://agendamento.reservio.com/psicologia1')">Treinador</button>
+    </div>
+
     <p id="errorMessage">Por gentileza, leia e declare ciência para continuar.</p>
   </div>
 
   <script>
     function toggleButton() {
       var checkBox = document.getElementById('acceptTerms');
-      var button = document.getElementById('agendarBtn');
+      var errorMessage = document.getElementById('errorMessage');
+      errorMessage.style.display = 'none'; // Esconde mensagem de erro ao marcar/desmarcar
+      var buttons = document.querySelectorAll('.agendarBtn');
 
-      if (checkBox.checked) {
-        button.disabled = false;
-        button.classList.add('enabled');
-      } else {
-        button.disabled = true;
-        button.classList.remove('enabled');
-      }
+      buttons.forEach(function(button) {
+        if (checkBox.checked) {
+          button.disabled = false;
+          button.classList.add('enabled');
+        } else {
+          button.disabled = true;
+          button.classList.remove('enabled');
+        }
+      });
     }
 
-    function agendar() {
+    function agendar(url) {
       var checkBox = document.getElementById('acceptTerms');
       var errorMessage = document.getElementById('errorMessage');
 
       if (checkBox.checked) {
-        window.location.href = "https://agendamento.reservio.com/psicologia1";
+        window.location.href = url;
       } else {
         errorMessage.style.display = 'block';
       }
