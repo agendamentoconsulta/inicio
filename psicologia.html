@@ -34,15 +34,26 @@
       background-color: grey;
       border: none;
       border-radius: 5px;
-      cursor: not-allowed;
+      cursor: pointer;
     }
     .agendarBtn.enabled {
       background-color: #491e9c;
-      cursor: pointer;
     }
     .checkbox-section {
       margin-top: 20px;
     }
+    a {
+      color: #491e9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    /* Modal Styles */
     #modal {
       display: none;
       position: fixed;
@@ -65,6 +76,21 @@
       position: relative;
       text-align: center;
     }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     .modal-button {
       padding: 10px 20px;
       font-size: 16px;
@@ -84,84 +110,70 @@
     <div class="info-text">
       <p><strong>A sua sessão é confirmada pelo e-mail do Reservio. Se não o receber, contate de imediato o Agendamento de Consultas; caso contrário, a consulta será cancelada.</strong></p>
       <p><strong>1.</strong> As teleconsultas em psicologia têm duração de 30 minutos.</p>
-      <!-- Resto do conteúdo mantido igual -->
+      <p><strong>2.</strong> O protocolo de psicoterapia breve consiste em 10 sessões semanais por pessoa física, sem reinício (mesmo em caso de troca de psicólogo ou de licença).<br>
+         Ao término, o profissional poderá dar alta ou encaminhar o cliente. Após o fim do protocolo, é possível realizar 1 sessão mensal, a critério do cliente.
+      </p>
+      <p><strong>3.</strong> Os atendimentos são por ligação de voz ou vídeo via Google Meet, conforme a preferência do cliente, sendo os links enviados por mensagem de texto no aplicativo.</p>
+      <p><strong>4.</strong> O cliente deve enviar mensagem no aplicativo ao profissional imediatamente ao agendar e no dia e horário da consulta. Se não o fizer, será considerado falta. A sessão sempre terminará no horário combinado, independente de atraso do cliente. Caso o atraso seja superior a 10 minutos, o atendimento será cancelado e contabilizado como falta.</p>
+      <p><strong>5.</strong> Cada atendimento realizado ou faltoso será contabilizado nas 10 sessões do protocolo, independente se houver mudança de profissional.</p>
+      <p><strong>6.</strong> Para não ser computada como falta, a sessão deve ser desmarcada com até 2 horas de antecedência, pelo link “cancelar” no e-mail ou site do Reservio.</p>
+      <p><strong>7.</strong> Em caso de falta ou desmarcação levará a liberação do horário, incluindo as demais consultas recorrentes, sendo necessário reagendar caso queira continuar.</p>
+      <p><strong>8.</strong> O protocolo possui limite de faltas. Em caso de 2 faltas o cliente ficará bloqueado de realizar novos agendamentos por 30 dias no serviço.</p>
+      <p><strong>9.</strong> É proibido agendar atendimentos com dois ou mais psicólogos simultaneamente ou realizar mais de uma consulta por semana. Se múltiplos agendamentos forem identificados antes da consulta, todos serão cancelados; caso contrário, cada agendamento extra irregular descontará 2 sessões do protocolo.</p>
+      <p><strong>10.</strong> Não serão realizados sobre nenhuma hipótese, atendimentos para dependentes (filhos menores de 18 anos), cônjuges, familiares, terceiros e atendimentos para crianças.</p>
+      <p><strong>11.</strong> Atendimentos para adolescentes de 16 e 17 anos com licença poderão ser realizados apenas com autorização de acompanhamento com assinatura autentificada por um dos responsáveis. A consulta será cancelada se não houver a autorização.</p>
+      <p><strong>12.</strong> Selecionar “qualquer pessoa disponível” não garante atendimento por um profissional aleatório; o nome do profissional será sempre informado por e-mail.</p>
+      <p>● O cliente pode solicitar os prontuários e todos os documentos psicológicos: declaração, atestado, relatório, laudo e parecer; os quais serão avaliados para emissão.</p>
+      <p>● Os atendimentos são sigilosos, sendo proibido a identificação do cliente por parte do profissional ou divulgação de informações. (Código de Ética do Psicólogo, Art. 9º).</p>
+      <p>● O psicólogo não pode induzir a convicções políticas, filosóficas, morais, ideológicas, religiosas, de orientação sexual ou a qualquer tipo de preconceito, quando do exercício de suas funções profissionais. (Código de Ética do Psicólogo, Art. 2º).</p>
     </div>
     
     <p class="terms checkbox-section">
-      <input type="checkbox" id="acceptRules"> Ao agendar, declaro que li e aceito as regras do serviço de psicologia.
+      <input type="checkbox" id="acceptRules" onclick="toggleButton()"> Ao agendar, declaro que li e aceito as regras do serviço de psicologia.
     </p>
     
     <div class="button-container">
-      <button class="agendarBtn" id="agendarBtn">Agendar</button>
+      <button class="agendarBtn" id="agendarBtn" onclick="agendar()">Agendar</button>
     </div>
   </div>
   
-  <div id="modal" style="display:none;">
+  <!-- Modal para mensagem de erro -->
+  <div id="modal">
     <div class="modal-content">
-      <div style="text-align:right;">
-        <span onclick="closeModal()" style="cursor:pointer; font-size:24px;">&times;</span>
-      </div>
+      <span class="close" onclick="closeModal()">&times;</span>
       <p>Para agendar, você precisa ler e declarar que aceita as regras do serviço de psicologia!</p>
-      <button class="modal-button" onclick="closeModal()">Entendido</button>
+      <button class="modal-button" onclick="closeModal()">Entendido!</button>
     </div>
   </div>
 
   <script>
-    // Função global para garantir que funcione mesmo com possíveis restrições
-    window.toggleButton = function() {
+    function toggleButton() {
       var checkBox = document.getElementById('acceptRules');
       var button = document.getElementById('agendarBtn');
-      
+      // Apenas altera a aparência para indicar que o botão está "ativo"
       if (checkBox.checked) {
-        button.disabled = false;
         button.classList.add('enabled');
       } else {
-        button.disabled = true;
         button.classList.remove('enabled');
       }
-    };
+    }
 
-    // Função global para agendar
-    window.agendar = function() {
+    function agendar() {
       var checkBox = document.getElementById('acceptRules');
-      
       if (checkBox.checked) {
         window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
       } else {
-        window.showModal();
+        showModal();
       }
-    };
+    }
 
-    // Função global para mostrar modal
-    window.showModal = function() {
+    function showModal() {
       document.getElementById('modal').style.display = 'block';
-    };
+    }
 
-    // Função global para fechar modal
-    window.closeModal = function() {
+    function closeModal() {
       document.getElementById('modal').style.display = 'none';
-    };
-
-    // Configurar eventos após o carregamento
-    document.addEventListener('DOMContentLoaded', function() {
-      var checkBox = document.getElementById('acceptRules');
-      var button = document.getElementById('agendarBtn');
-      
-      // Desabilitar botão inicialmente
-      button.disabled = true;
-      
-      // Adicionar event listener para o checkbox
-      checkBox.addEventListener('change', window.toggleButton);
-      
-      // Adicionar event listener para o botão
-      button.addEventListener('click', window.agendar);
-      
-      // Adicionar eventos para fechar modal
-      var closeButtons = document.querySelectorAll('[onclick="closeModal()"]');
-      closeButtons.forEach(function(el) {
-        el.addEventListener('click', window.closeModal);
-      });
-    });
+    }
   </script>
 </body>
 </html>
