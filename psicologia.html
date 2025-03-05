@@ -148,7 +148,6 @@
   </div>
 
   <script>
-    // Espera o DOM ser totalmente carregado
     document.addEventListener('DOMContentLoaded', function() {
       // Seleciona os elementos
       const acceptRulesCheckbox = document.getElementById('acceptRules');
@@ -160,7 +159,7 @@
       // Inicializa o botão como desabilitado
       agendarBtn.disabled = true;
 
-      // Eventos
+      // Função para mostrar o modal
       function showModal(e) {
         e.preventDefault(); // Previne qualquer ação padrão
         modal.style.display = 'block';
@@ -179,8 +178,7 @@
       // Evento de clique no botão
       agendarBtn.addEventListener('click', function(e) {
         if (!acceptRulesCheckbox.checked) {
-          e.preventDefault();
-          modal.style.display = 'block';
+          showModal(e); // Chama a função showModal diretamente
         } else {
           window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
         }
