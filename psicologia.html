@@ -5,17 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regras do serviço de psicologia</title>
   <style>
-    /* Estilos anteriores mantidos na íntegra */
-    #debug-info {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      background: rgba(0,0,0,0.7);
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin-top: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    h1 {
+      color: #491e9c;
+      text-align: center;
+      font-size: 30.5px;
+      margin-top: 0;
+    }
+    .info-text, .terms {
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: justify;
+    }
+    .agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
       color: white;
-      padding: 10px;
+      background-color: grey;
+      border: none;
+      border-radius: 5px;
+      cursor: not-allowed;
+    }
+    .agendarBtn.enabled {
+      background-color: #491e9c;
+      cursor: pointer;
+    }
+    .checkbox-section {
+      margin-top: 20px;
+    }
+    a {
+      color: #491e9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    /* Modal Styles */
+    #modal {
       display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
       width: 100%;
-      z-index: 9999;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modal-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #491e9c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -24,7 +109,24 @@
     <h1>Regras do serviço de psicologia</h1>
     
     <div class="info-text">
-      <!-- Conteúdo anterior mantido na íntegra -->
+      <p><strong>A sua sessão é confirmada pelo e-mail do Reservio. Se não o receber, contate de imediato o Agendamento de Consultas; caso contrário, a consulta será cancelada.</strong></p>
+      <p><strong>1.</strong> As teleconsultas em psicologia têm duração de 30 minutos.</p>
+      <p><strong>2.</strong> O protocolo de psicoterapia breve consiste em 10 sessões semanais por pessoa física, sem reinício (mesmo em caso de troca de psicólogo ou de licença).<br>
+         Ao término, o profissional poderá dar alta ou encaminhar o cliente. Após o fim do protocolo, é possível realizar 1 sessão mensal, a critério do cliente.
+      </p>
+      <p><strong>3.</strong> Os atendimentos são por ligação de voz ou vídeo via Google Meet, conforme a preferência do cliente, sendo os links enviados por mensagem de texto no aplicativo.</p>
+      <p><strong>4.</strong> O cliente deve enviar mensagem no aplicativo ao profissional imediatamente ao agendar e no dia e horário da consulta. Se não o fizer, será considerado falta. A sessão sempre terminará no horário combinado, independente de atraso do cliente. Caso o atraso seja superior a 10 minutos, o atendimento será cancelado e contabilizado como falta.</p>
+      <p><strong>5.</strong> Cada atendimento realizado ou faltoso será contabilizado nas 10 sessões do protocolo, independente se houver mudança de profissional.</p>
+      <p><strong>6.</strong> Para não ser computada como falta, a sessão deve ser desmarcada com até 2 horas de antecedência, pelo link "cancelar" no e-mail ou site do Reservio.</p>
+      <p><strong>7.</strong> Em caso de falta ou desmarcação levará a liberação do horário, incluindo as demais consultas recorrentes, sendo necessário reagendar caso queira continuar.</p>
+      <p><strong>8.</strong> O protocolo possui limite de faltas. Em caso de 2 faltas o cliente ficará bloqueado de realizar novos agendamentos por 30 dias no serviço.</p>
+      <p><strong>9.</strong> É proibido agendar atendimentos com dois ou mais psicólogos simultaneamente ou realizar mais de uma consulta por semana. Se múltiplos agendamentos forem identificados antes da consulta, todos serão cancelados; caso contrário, cada agendamento extra irregular descontará 2 sessões do protocolo.</p>
+      <p><strong>10.</strong> Não serão realizados sobre nenhuma hipótese, atendimentos para dependentes (filhos menores de 18 anos), cônjuges, familiares, terceiros e atendimentos para crianças.</p>
+      <p><strong>11.</strong> Atendimentos para adolescentes de 16 e 17 anos com licença poderão ser realizados apenas com autorização de acompanhamento com assinatura autentificada por um dos responsáveis. A consulta será cancelada se não houver a autorização.</p>
+      <p><strong>12.</strong> Selecionar "qualquer pessoa disponível" não garante atendimento por um profissional aleatório; o nome do profissional será sempre informado por e-mail.</p>
+      <p>● O cliente pode solicitar os prontuários e todos os documentos psicológicos: declaração, atestado, relatório, laudo e parecer; os quais serão avaliados para emissão.</p>
+      <p>● Os atendimentos são sigilosos, sendo proibido a identificação do cliente por parte do profissional ou divulgação de informações. (Código de Ética do Psicólogo, Art. 9º).</p>
+      <p>● O psicólogo não pode induzir a convicções políticas, filosóficas, morais, ideológicas, religiosas, de orientação sexual ou a qualquer tipo de preconceito, quando do exercício de suas funções profissionais. (Código de Ética do Psicólogo, Art. 2º).</p>
     </div>
     
     <p class="terms checkbox-section">
@@ -45,99 +147,56 @@
     </div>
   </div>
 
-  <!-- Debug Info -->
-  <div id="debug-info"></div>
-
   <script>
-    // Função de depuração
-    function debugLog(message) {
-      const debugElement = document.getElementById('debug-info');
-      if (debugElement) {
-        debugElement.style.display = 'block';
-        debugElement.innerHTML += message + '<br>';
+    // Espera o DOM ser totalmente carregado
+    document.addEventListener('DOMContentLoaded', function() {
+      // Seleciona os elementos
+      const acceptRulesCheckbox = document.getElementById('acceptRules');
+      const agendarBtn = document.getElementById('agendarBtn');
+      const modal = document.getElementById('modal');
+      const closeModalBtn = modal.querySelector('.close');
+      const modalButton = modal.querySelector('.modal-button');
+
+      // Inicializa o botão como desabilitado
+      agendarBtn.disabled = true;
+
+      // Eventos
+      function showModal(e) {
+        e.preventDefault(); // Previne qualquer ação padrão
+        modal.style.display = 'block';
       }
-      console.log(message);
-    }
 
-    // Função principal de inicialização
-    function initializePage() {
-      try {
-        const acceptRulesCheckbox = document.getElementById('acceptRules');
-        const agendarBtn = document.getElementById('agendarBtn');
-        const modal = document.getElementById('modal');
-        const closeModalBtn = modal.querySelector('.close');
-        const modalButton = modal.querySelector('.modal-button');
+      function closeModal() {
+        modal.style.display = 'none';
+      }
 
-        debugLog('Elementos selecionados com sucesso');
+      // Evento de mudança no checkbox
+      acceptRulesCheckbox.addEventListener('change', function() {
+        agendarBtn.disabled = !this.checked;
+        agendarBtn.classList.toggle('enabled', this.checked);
+      });
 
-        // Verifica se todos os elementos existem
-        if (!acceptRulesCheckbox || !agendarBtn || !modal || !closeModalBtn || !modalButton) {
-          debugLog('Erro: Alguns elementos não foram encontrados');
-          return;
+      // Evento de clique no botão
+      agendarBtn.addEventListener('click', function(e) {
+        if (!acceptRulesCheckbox.checked) {
+          e.preventDefault();
+          modal.style.display = 'block';
+        } else {
+          window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
         }
+      });
 
-        // Inicializa o botão como desabilitado
-        agendarBtn.disabled = true;
+      // Eventos para fechar o modal
+      closeModalBtn.addEventListener('click', closeModal);
+      modalButton.addEventListener('click', closeModal);
 
-        // Adiciona evento de mudança no checkbox
-        acceptRulesCheckbox.addEventListener('change', function() {
-          if (this.checked) {
-            agendarBtn.disabled = false;
-            agendarBtn.classList.add('enabled');
-          } else {
-            agendarBtn.disabled = true;
-            agendarBtn.classList.remove('enabled');
-          }
-        });
-
-        // Adiciona evento de clique usando método addEventListener
-        document.body.addEventListener('click', function(event) {
-          // Verifica se o clique foi no botão Agendar
-          if (event.target === agendarBtn) {
-            debugLog('Botão Agendar clicado');
-            
-            // Verifica se o checkbox está marcado
-            if (acceptRulesCheckbox.checked) {
-              debugLog('Checkbox marcado, indo para link de agendamento');
-              window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
-            } else {
-              debugLog('Checkbox NÃO marcado, mostrando modal');
-              modal.style.display = 'block';
-              
-              // Previne qualquer ação padrão
-              event.preventDefault();
-              event.stopPropagation();
-            }
-          }
-        });
-
-        // Eventos para fechar o modal
-        closeModalBtn.addEventListener('click', function() {
-          debugLog('Fechando modal pelo botão de fechar');
-          modal.style.display = 'none';
-        });
-
-        modalButton.addEventListener('click', function() {
-          debugLog('Fechando modal pelo botão Entendido');
-          modal.style.display = 'none';
-        });
-
-        // Fecha o modal se clicar fora dele
-        window.addEventListener('click', function(event) {
-          if (event.target === modal) {
-            debugLog('Fechando modal ao clicar fora');
-            modal.style.display = 'none';
-          }
-        });
-
-        debugLog('Página inicializada com sucesso');
-      } catch (error) {
-        debugLog('Erro na inicialização: ' + error.message);
-      }
-    }
-
-    // Adiciona evento de carregamento do DOM
-    document.addEventListener('DOMContentLoaded', initializePage);
+      // Fecha o modal ao clicar fora
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+    });
   </script>
 </body>
 </html>
