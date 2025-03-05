@@ -139,7 +139,7 @@
   </div>
   
   <!-- Modal para mensagem de erro -->
-  <div id="modal">
+  <div id="modal" style="display:none;">
     <div class="modal-content">
       <span class="close">&times;</span>
       <p>Para agendar, você precisa ler e declarar que aceita as regras do serviço de psicologia!</p>
@@ -148,37 +148,38 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Seleciona os elementos
+    document.addEventListener('DOMContentLoaded', (event) => {
       const acceptRulesCheckbox = document.getElementById('acceptRules');
       const agendarBtn = document.getElementById('agendarBtn');
       const modal = document.getElementById('modal');
-      const closeModalBtn = modal.querySelector('.close');
-      const modalButton = modal.querySelector('.modal-button');
-
-      // Inicializa o botão como desabilitado
-      agendarBtn.disabled = true;
+      const closeModalBtn = document.querySelector('.close');
+      const modalButton = document.querySelector('.modal-button');
 
       // Função para mostrar o modal
-      function showModal(e) {
-        e.preventDefault(); // Previne qualquer ação padrão
+      function showModal() {
         modal.style.display = 'block';
       }
 
+      // Função para fechar o modal
       function closeModal() {
         modal.style.display = 'none';
       }
 
+      // Atualiza estado do botão
+      function updateButtonState() {
+        agendarBtn.disabled = !acceptRulesCheckbox.checked;
+        agendarBtn.classList.toggle('enabled', acceptRulesCheckbox.checked);
+      }
+
       // Evento de mudança no checkbox
-      acceptRulesCheckbox.addEventListener('change', function() {
-        agendarBtn.disabled = !this.checked;
-        agendarBtn.classList.toggle('enabled', this.checked);
-      });
+      acceptRulesCheckbox.addEventListener('change', updateButtonState);
 
       // Evento de clique no botão
-      agendarBtn.addEventListener('click', function(e) {
+      agendarBtn.addEventListener('click', (event) => {
         if (!acceptRulesCheckbox.checked) {
-          showModal(e); // Chama a função showModal diretamente
+          event.preventDefault();
+          showModal();
+          return false;
         } else {
           window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
         }
@@ -189,11 +190,14 @@
       modalButton.addEventListener('click', closeModal);
 
       // Fecha o modal ao clicar fora
-      window.addEventListener('click', function(event) {
+      window.addEventListener('click', (event) => {
         if (event.target === modal) {
           closeModal();
         }
       });
+
+      // Inicializa o estado do botão
+      updateButtonState();
     });
   </script>
 </body>
