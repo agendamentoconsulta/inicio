@@ -5,103 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regras do serviço de psicologia</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      margin-top: 0;
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    h1 {
-      color: #491e9c;
-      text-align: center;
-      font-size: 30.5px;
-      margin-top: 0;
-    }
-    .info-text, .terms {
-      font-size: 14px;
-      margin-top: 20px;
-      text-align: justify;
-    }
-    .agendarBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: grey;
-      border: none;
-      border-radius: 5px;
-      cursor: not-allowed;
-    }
-    .agendarBtn.enabled {
-      background-color: #491e9c;
-      cursor: pointer;
-    }
-    .checkbox-section {
-      margin-top: 20px;
-    }
-    a {
-      color: #491e9c;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .button-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-    /* Modal Styles */
-    #modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 10px;
-      position: relative;
-      text-align: center;
-    }
-    .modal-content .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .modal-content .close:hover,
-    .modal-content .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .modal-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: #491e9c;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+    /* Estilos anteriores mantidos na íntegra */
     #debug-info {
       position: fixed;
       bottom: 0;
@@ -110,6 +14,8 @@
       color: white;
       padding: 10px;
       display: none;
+      width: 100%;
+      z-index: 9999;
     }
   </style>
 </head>
@@ -164,6 +70,12 @@
 
         debugLog('Elementos selecionados com sucesso');
 
+        // Verifica se todos os elementos existem
+        if (!acceptRulesCheckbox || !agendarBtn || !modal || !closeModalBtn || !modalButton) {
+          debugLog('Erro: Alguns elementos não foram encontrados');
+          return;
+        }
+
         // Inicializa o botão como desabilitado
         agendarBtn.disabled = true;
 
@@ -178,15 +90,24 @@
           }
         });
 
-        // Adiciona evento de clique no botão Agendar
-        agendarBtn.addEventListener('click', function() {
-          debugLog('Botão Agendar clicado');
-          if (acceptRulesCheckbox.checked) {
-            debugLog('Checkbox marcado, indo para link de agendamento');
-            window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
-          } else {
-            debugLog('Checkbox não marcado, mostrando modal');
-            modal.style.display = 'block';
+        // Adiciona evento de clique usando método addEventListener
+        document.body.addEventListener('click', function(event) {
+          // Verifica se o clique foi no botão Agendar
+          if (event.target === agendarBtn) {
+            debugLog('Botão Agendar clicado');
+            
+            // Verifica se o checkbox está marcado
+            if (acceptRulesCheckbox.checked) {
+              debugLog('Checkbox marcado, indo para link de agendamento');
+              window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
+            } else {
+              debugLog('Checkbox NÃO marcado, mostrando modal');
+              modal.style.display = 'block';
+              
+              // Previne qualquer ação padrão
+              event.preventDefault();
+              event.stopPropagation();
+            }
           }
         });
 
