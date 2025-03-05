@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regras do serviço de treinador</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin-top: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    h1 {
+      color: #491e9c;
+      text-align: center;
+      font-size: 30.5px;
+      margin-top: 0;
+    }
+    .info-text, .terms {
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: justify;
+    }
+    .agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: grey;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .agendarBtn.enabled {
+      background-color: #491e9c;
+    }
+    .checkbox-section {
+      margin-top: 20px;
+    }
+    a {
+      color: #491e9c;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    /* Modal Styles */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modal-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #491e9c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Regras do serviço de treinador</h1>
+    
+    <div class="info-text">
+      <p><strong>A sua sessão é confirmada pelo e-mail do Reservio. Se não o receber, contate de imediato o “Agendamento de Consultas”; caso contrário, a consulta será cancelada.</strong></p>
+      <p><strong>1.</strong> As teleconsultas têm duração de <strong>15 minutos</strong>. É obrigatório preencher o formulário de aptidão física para realizar a consulta; se não o fizer, a consulta será cancelada.</p>
+      <p><strong>2.</strong> O protocolo possui uma periodicidade mínima dos encontros de <strong>30 dias</strong>, com finalidade de adaptar o plano de treino, em caso de necessidade do usuário.</p>
+      <p><strong>3.</strong> Os atendimentos serão realizados por texto via aplicativo ou por ligação de voz/vídeo via Google Meet, conforme a preferência do cliente, com os links enviados pelo aplicativo.</p>
+      <p><strong>4.</strong> O cliente deve <strong>enviar mensagem</strong> no aplicativo ao profissional <strong>ao agendar</strong> e no <strong>dia e horário da consulta</strong>. Se <strong>não o fizer</strong>, será considerado <strong>falta</strong>. A sessão <strong>sempre terminará no horário combinado</strong>, independente de <strong>atraso</strong>. Caso o <strong>atraso seja superior a 5 minutos</strong>, o <strong>atendimento será cancelado</strong> e contabilizado como <strong>falta</strong>.</p>
+      <p><strong>5.</strong> Cada consulta faltosa contará como realizada, e o cliente só poderá reagendar após <strong>30 dias</strong> na data de retorno, mesmo que haja troca de profissional.</p>
+      <p><strong>6.</strong> Para <strong>não ser</strong> computada como <strong>falta</strong>, a sessão deve ser <strong>desmarcada com até 2 horas de antecedência</strong>, pelo link <strong>"cancelar"</strong> no e-mail ou <strong>site do Reservio</strong>.</p>
+      <p><strong>7.</strong> Seu treino será disponibilizado no aplicativo <strong>MFit Personal</strong> em até <strong>3 dias úteis</strong> após a consulta, com acesso enviado pelo treinador. Ajustes podem ser solicitados por mensagem em até <strong>7 dias</strong> após o recebimento. Para um novo treino ou mudanças após esse prazo, é necessário agendar outra consulta, respeitando o intervalo mínimo de <strong>30 dias</strong>.</p>
+      <p><strong>8.</strong> O protocolo possui limite de faltas. Em caso de <strong>2 faltas</strong> o cliente ficará <strong>bloqueado</strong> de realizar novos agendamentos por <strong>30 dias</strong> no serviço.</p>
+      <p><strong>9.</strong> É proibido agendar atendimentos com dois ou mais profissionais simultaneamente ou realizar <strong>mais de uma consulta por mês</strong>. Se múltiplos agendamentos forem identificados antes da consulta, <strong>todos serão cancelados</strong>.</p>
+      <p><strong>10.</strong> Não serão realizados sobre <strong>nenhuma hipótese</strong>, atendimentos para <strong>cônjuges, familiares e terceiros</strong>.</p>
+      <p><strong>11.</strong> Os atendimentos para dependentes (filhos menores de 18 anos) e adolescentes de 16 a 17 anos com licença, serão realizados somente por chamada de vídeo e exigem a presença de um responsável ou autorização com assinatura autentificada por um dos <strong>responsáveis</strong>. O treinador que acompanha o cliente será, obrigatoriamente, o <strong>responsável pelos seus dependentes</strong>, caso queira agendar para um dependente.</p>
+      <p><strong>12.</strong> Selecionar “qualquer pessoa disponível” não garante atendimento por um profissional aleatório; o nome do profissional será sempre informado por e-mail.</p>
+      <p><strong>● Os atendimentos são sigilosos, sendo proibido identificação do cliente por parte do profissional ou divulgação de informações. (Resolução CONFEF nº 508/2023, Art. 3º).</strong></p>
+    </div>
+    
+    <p class="terms checkbox-section">
+      <input type="checkbox" id="acceptRules" onclick="toggleButton()"> Ao agendar, declaro que li e aceito as regras do serviço de treinador.
+    </p>
+    
+    <div class="button-container">
+      <button class="agendarBtn" id="agendarBtn" onclick="agendar()">Agendar</button>
+    </div>
+  </div>
+  
+  <!-- Modal para mensagem de erro -->
+  <div id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p>Para agendar, você precisa ler e declarar que aceita as regras do serviço de treinador!</p>
+      <button class="modal-button" onclick="closeModal()">Entendido</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleButton() {
+      var checkBox = document.getElementById('acceptRules');
+      var button = document.getElementById('agendarBtn');
+      // Apenas altera a aparência para indicar que o botão está "ativo"
+      if (checkBox.checked) {
+        button.classList.add('enabled');
+      } else {
+        button.classList.remove('enabled');
+      }
+    }
+
+    function agendar() {
+      var checkBox = document.getElementById('acceptRules');
+      if (checkBox.checked) {
+        window.location.href = 'https://tinyurl.com/FORMtrei';
+      } else {
+        showModal();
+      }
+    }
+
+    function showModal() {
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
