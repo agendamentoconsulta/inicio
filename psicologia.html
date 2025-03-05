@@ -43,7 +43,6 @@
     .checkbox-section {
       margin-top: 20px;
     }
-    /* Modal Styles - Mantidos os mesmos */
     #modal {
       display: none;
       position: fixed;
@@ -66,15 +65,6 @@
       position: relative;
       text-align: center;
     }
-    .modal-content .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
     .modal-button {
       padding: 10px 20px;
       font-size: 16px;
@@ -92,67 +82,86 @@
     <h1>Regras do serviço de psicologia</h1>
     
     <div class="info-text">
-      <!-- Conteúdo anterior mantido igual -->
       <p><strong>A sua sessão é confirmada pelo e-mail do Reservio. Se não o receber, contate de imediato o Agendamento de Consultas; caso contrário, a consulta será cancelada.</strong></p>
-      <!-- Resto do conteúdo... -->
+      <p><strong>1.</strong> As teleconsultas em psicologia têm duração de 30 minutos.</p>
+      <!-- Resto do conteúdo mantido igual -->
     </div>
     
     <p class="terms checkbox-section">
-      <input type="checkbox" id="acceptRules" onchange="validateCheckbox()"> Ao agendar, declaro que li e aceito as regras do serviço de psicologia.
+      <input type="checkbox" id="acceptRules"> Ao agendar, declaro que li e aceito as regras do serviço de psicologia.
     </p>
     
     <div class="button-container">
-      <button class="agendarBtn" id="agendarBtn" onclick="agendar()">Agendar</button>
+      <button class="agendarBtn" id="agendarBtn">Agendar</button>
     </div>
   </div>
   
-  <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
-    <div style="background:white; width:300px; margin:100px auto; padding:20px; text-align:center; border-radius:10px;">
-      <h2>Aviso</h2>
+  <div id="modal" style="display:none;">
+    <div class="modal-content">
+      <div style="text-align:right;">
+        <span onclick="closeModal()" style="cursor:pointer; font-size:24px;">&times;</span>
+      </div>
       <p>Para agendar, você precisa ler e declarar que aceita as regras do serviço de psicologia!</p>
-      <button onclick="closeModal()">Entendido</button>
+      <button class="modal-button" onclick="closeModal()">Entendido</button>
     </div>
   </div>
 
   <script>
-    let isButtonEnabled = false;
-
-    function validateCheckbox() {
-      const checkbox = document.getElementById('acceptRules');
-      const button = document.getElementById('agendarBtn');
+    // Função global para garantir que funcione mesmo com possíveis restrições
+    window.toggleButton = function() {
+      var checkBox = document.getElementById('acceptRules');
+      var button = document.getElementById('agendarBtn');
       
-      if (checkbox.checked) {
+      if (checkBox.checked) {
         button.disabled = false;
         button.classList.add('enabled');
-        isButtonEnabled = true;
       } else {
         button.disabled = true;
         button.classList.remove('enabled');
-        isButtonEnabled = false;
       }
-    }
+    };
 
-    function agendar() {
-      if (isButtonEnabled) {
+    // Função global para agendar
+    window.agendar = function() {
+      var checkBox = document.getElementById('acceptRules');
+      
+      if (checkBox.checked) {
         window.location.href = 'https://agendamento.reservio.com/psicologia1/services/115d1b9b-76cb-4091-bdb9-c97bd654c04f';
       } else {
-        showModal();
+        window.showModal();
       }
-    }
+    };
 
-    function showModal() {
+    // Função global para mostrar modal
+    window.showModal = function() {
       document.getElementById('modal').style.display = 'block';
-    }
+    };
 
-    function closeModal() {
+    // Função global para fechar modal
+    window.closeModal = function() {
       document.getElementById('modal').style.display = 'none';
-    }
+    };
 
-    // Inicialização
-    window.onload = function() {
-      const button = document.getElementById('agendarBtn');
+    // Configurar eventos após o carregamento
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkBox = document.getElementById('acceptRules');
+      var button = document.getElementById('agendarBtn');
+      
+      // Desabilitar botão inicialmente
       button.disabled = true;
-    }
+      
+      // Adicionar event listener para o checkbox
+      checkBox.addEventListener('change', window.toggleButton);
+      
+      // Adicionar event listener para o botão
+      button.addEventListener('click', window.agendar);
+      
+      // Adicionar eventos para fechar modal
+      var closeButtons = document.querySelectorAll('[onclick="closeModal()"]');
+      closeButtons.forEach(function(el) {
+        el.addEventListener('click', window.closeModal);
+      });
+    });
   </script>
 </body>
 </html>
