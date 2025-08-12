@@ -42,11 +42,6 @@
             margin-bottom: 8px;
         }
 
-        .header p {
-            color: #6B7280;
-            font-size: 1.1rem;
-        }
-
         .tab-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -492,15 +487,14 @@
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1>💼 Painel Financeiro - Corpo clínico MediQuo</h1>
-            <p>Gestão completa do corpo clínico e projetos</p>
+            <h1>Painel Financeiro - Corpo clínico MediQuo</h1>
         </div>
 
         <div class="tab-container">
             <div class="tab-nav">
-                <button class="tab-btn active" onclick="showTab('professionals')">👥 Profissionais</button>
-                <button class="tab-btn" onclick="showTab('analytics')">📊 Análises</button>
-                <button class="tab-btn" onclick="showTab('simulator')">🧮 Simulador</button>
+                <button class="tab-btn active" onclick="showTab('professionals')">Profissionais</button>
+                <button class="tab-btn" onclick="showTab('analytics')">Análises</button>
+                <button class="tab-btn" onclick="showTab('simulator')">Simulador</button>
             </div>
 
             <!-- Tab Profissionais (conteúdo original mantido) -->
@@ -543,7 +537,7 @@
                         </div>
                     </div>
 
-                    <!-- (profissionais: mantive a estrutura original sem o bloco duplicado que estava no final do arquivo) -->
+                    <!-- (profissionais: mantidos) -->
 
                     <!-- Psicologia -->
                     <div class="professional-row" data-area="psicologia" onclick="toggleSchedule('schedule1')">
@@ -583,11 +577,19 @@
             <div id="analytics" class="tab-content">
                 <div class="charts-grid">
                     <div class="chart-container">
-                        <div class="chart-title">Gastos do Corpo Clínico ao Longo do Tempo</div>
+                        <div class="chart-title">Gastos do Corpo Clínico ao Longo do Tempo (por área)</div>
                         <canvas id="costsOverTimeChart"></canvas>
                     </div>
                     <div class="chart-container">
-                        <div class="chart-title">Gastos por Área</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <div class="chart-title" style="margin:0;">Gastos por Área</div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <label for="monthFilter" style="color:#4A1EA7; font-weight:600;">Filtrar mês:</label>
+                                <select id="monthFilter" onchange="updateCostsByAreaChart()">
+                                    <!-- options serão preenchidas dinamicamente -->
+                                </select>
+                            </div>
+                        </div>
                         <canvas id="costsByAreaChart"></canvas>
                     </div>
                 </div>
@@ -607,11 +609,7 @@
                         <h3>Custo Médio por Profissional</h3>
                         <div class="value">R$ 3.280</div>
                     </div>
-                    <div class="stat-card">
-                        <h3>Eficiência de Custos</h3>
-                        <div class="value">87%</div>
-                        <small style="opacity: 0.8;">Taxa de aproveitamento</small>
-                    </div>
+                    <!-- Removida a caixa "Eficiência de Custos" conforme solicitado -->
                 </div>
             </div>
 
@@ -679,7 +677,6 @@
             const allContents = document.querySelectorAll('.tab-content');
             allTabs.forEach(tab => tab.classList.remove('active'));
             allContents.forEach(content => content.classList.remove('active'));
-            // event may be undefined if called programmatically, so guard
             try { if (event && event.target) event.target.classList.add('active'); } catch(e){}
             document.getElementById(tabName).classList.add('active');
             if (tabName === 'analytics') {
@@ -712,7 +709,7 @@
             alert(`Abrindo contrato para: ${professionalId.replace('-', ' ')}`);
         }
 
-        // ---------- Charts (corrigidos) ----------
+        // ---------- Charts (corrigidos e melhorados) ----------
         function initializeCharts() {
             // destruir se já existirem
             const existing1 = Chart.getChart('costsOverTimeChart');
@@ -722,42 +719,83 @@
 
             // Dados fictícios de exemplo (troque conforme necessário)
             const months = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Ago'];
-            const monthlyCosts = [28000, 30000, 32000, 33000, 32800, 34000];
+            // Valores por área por mês (exemplo)
+            const areaMonthly = {
+                'Medicina': [12000,13000,14000,15000,14800,15500],
+                'Psicologia': [4000,4200,4500,4600,4800,5000],
+                'Nutrição': [3000,3200,3400,3500,3600,3700],
+                'Ed. Física': [2500,2600,2700,2800,2900,3000],
+                'Veterinária': [1500,1600,1700,1800,1900,2000]
+            };
+            const areas = Object.keys(areaMonthly);
+            const colors = {
+                'Medicina': '#48bb78',
+                'Psicologia': '#9f7aea',
+                'Nutrição': '#ed8936',
+                'Ed. Física': '#38b2ac',
+                'Veterinária': '#e53e3e'
+            };
 
+            // --- Chart 1: barras empilhadas por mês (cada área é uma série) ---
             const ctx1 = document.getElementById('costsOverTimeChart').getContext('2d');
-            new Chart(ctx1, {
+            const datasetsOverTime = areas.map(area => ({
+                label: area,
+                data: areaMonthly[area],
+                backgroundColor: colors[area],
+                borderRadius: 6
+            }));
+
+            window.costsOverTimeChartRef = new Chart(ctx1, {
                 type: 'bar',
                 data: {
                     labels: months,
-                    datasets: [{
-                        label: 'Gasto mensal (R$)',
-                        data: monthlyCosts,
-                        backgroundColor: '#6B46C1',
-                        borderRadius: 6
-                    }]
+                    datasets: datasetsOverTime
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { beginAtZero: true }
+                        x: { stacked: true },
+                        y: { stacked: true, beginAtZero: true }
                     },
-                    plugins: { legend: { display: false } }
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
 
-            // Custos por área (colunas)
-            const areas = ['Medicina', 'Psicologia', 'Nutrição', 'Ed. Física', 'Veterinária'];
-            const areaCosts = [16000, 4800, 4800, 4800, 2400];
+            // --- Chart 2: custos por área (por mês ou total) ---
+            // inicializa select de meses
+            const monthFilter = document.getElementById('monthFilter');
+            monthFilter.innerHTML = '';
+            const optAll = document.createElement('option'); optAll.value = 'all'; optAll.textContent = 'Todos';
+            monthFilter.appendChild(optAll);
+            months.forEach((m, idx) => {
+                const o = document.createElement('option'); o.value = idx; o.textContent = m;
+                monthFilter.appendChild(o);
+            });
+
+            // função para obter dados por área para o mês selecionado
+            function computeAreaTotals(monthIndex) {
+                const totals = areas.map(area => {
+                    if (monthIndex === 'all') {
+                        // soma todos os meses
+                        return areaMonthly[area].reduce((s, v) => s + v, 0);
+                    } else {
+                        return areaMonthly[area][parseInt(monthIndex, 10)] || 0;
+                    }
+                });
+                return totals;
+            }
+
             const ctx2 = document.getElementById('costsByAreaChart').getContext('2d');
-            new Chart(ctx2, {
+            const initialData = computeAreaTotals('all');
+            window.costsByAreaChartRef = new Chart(ctx2, {
                 type: 'bar',
                 data: {
                     labels: areas,
                     datasets: [{
                         label: 'Custo (R$)',
-                        data: areaCosts,
-                        backgroundColor: ['#48bb78', '#9f7aea', '#ed8936', '#38b2ac', '#e53e3e'],
+                        data: initialData,
+                        backgroundColor: areas.map(a => colors[a]),
                         borderRadius: 6
                     }]
                 },
@@ -768,6 +806,27 @@
                     plugins: { legend: { display: false } }
                 }
             });
+
+            // torna disponível para função externa atualizar
+            window._chartDataStore = { months, areas, areaMonthly, colors };
+        }
+
+        function updateCostsByAreaChart() {
+            const sel = document.getElementById('monthFilter');
+            const val = sel.value;
+            const store = window._chartDataStore;
+            if (!store || !window.costsByAreaChartRef) return;
+            const totals = (function() {
+                if (val === 'all') {
+                    return store.areas.map(a => store.areaMonthly[a].reduce((s,v)=>s+v,0));
+                } else {
+                    const idx = parseInt(val,10);
+                    return store.areas.map(a => store.areaMonthly[a][idx] || 0);
+                }
+            })();
+
+            window.costsByAreaChartRef.data.datasets[0].data = totals;
+            window.costsByAreaChartRef.update();
         }
 
         // ---------- Simulador dinâmico ----------
