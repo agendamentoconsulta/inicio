@@ -335,9 +335,11 @@
             position: relative;
         }
 
+        /* Corrigido: definir altura fixa do canvas para evitar loop de layout que fazia o gráfico crescer indefinidamente */
         .chart-container canvas {
+            display: block;
             width: 100% !important;
-            height: 100% !important;
+            height: 320px !important;
         }
 
         .chart-title {
@@ -550,7 +552,7 @@
                                 <div class="area-badge area-psicologia">PSI</div>
                                 <div class="name-info">
                                     <h4>Caroline Dias</h4>
-                                    <span>Psicologia Clínica</span>
+                                    <span>Psicologia</span>
                                 </div>
                             </div>
                             <button class="contract-btn" onclick="event.stopPropagation(); openContract('caroline-dias')">📄 Contrato</button>
@@ -637,7 +639,7 @@
                     </div>
 
                     <div style="margin-top:12px;">
-                        <button class="simulate-btn" onclick="runSimulation()">Simular Contratação</button>
+                        <button class="simulate-btn" onclick="runSimulation()">Simular orçamento</button>
                     </div>
 
                     <div id="simulationResult" class="simulation-result">
