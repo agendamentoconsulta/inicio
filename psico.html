@@ -56,6 +56,28 @@
     .agendarBtn:hover {
       background-color: #3a1880;
     }
+    
+    /* Estilo específico para o botão com texto duplo */
+    .agendarBtn.two-line {
+      padding: 12px 20px;
+      min-width: 200px;
+      line-height: 1.2;
+    }
+    
+    .agendarBtn .main-text {
+      display: block;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .agendarBtn .sub-text {
+      display: block;
+      font-size: 11px;
+      font-weight: bold;
+      margin-top: 2px;
+      opacity: 0.9;
+    }
+    
     .button-center {
       text-align: center;
       margin: 15px 0;
@@ -124,7 +146,10 @@
       <p><span class="highlight">Para agendar para seu dependente, clique no botão a seguir:</span></p>
       
       <div class="button-center">
-        <button class="agendarBtn" onclick="showModal()">AGENDAR PARA MEU FILHO(A)</button>
+        <button class="agendarBtn two-line" onclick="showModal()">
+          <span class="main-text">AGENDAR PARA MEU FILHO(A)</span>
+          <span class="sub-text">INDISPONÍVEL (APENAS EM PSICOLOGIA)</span>
+        </button>
       </div>
       
       <p><span class="highlight">Para gerenciar seus agendamentos, clique aqui:</span></p>
