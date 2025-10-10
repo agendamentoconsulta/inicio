@@ -1,167 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendamento</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dúvidas sobre os serviços</title>
   <style>
+    /* Base (mesma família e cores do seu segundo exemplo) */
     body {
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
-      margin-top: 0;
+      margin: 0;
+      background: #fff;
+      color: #222;
     }
 
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: 0 auto;
       text-align: left;
+      padding: 8px;
     }
 
     h1 {
       color: #491e9c;
       text-align: center;
       font-size: 30.5px;
-      margin-top: 0;
+      margin: 8px 0 16px;
+      font-weight: bold;
     }
 
-    .info-text, .terms {
+    .info-text {
       font-size: 14px;
-      margin-top: 20px;
+      margin-top: 8px;
       text-align: justify;
-    }
-
-    .agendarBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: grey;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .agendarBtn.enabled {
-      background-color: #491e9c;
-      cursor: pointer;
-    }
-
-    .checkbox-section {
-      margin-top: 20px;
+      line-height: 1.4;
     }
 
     a {
       color: #491e9c;
       text-decoration: none;
     }
+    a:hover { text-decoration: underline; }
 
-    a:hover {
-      text-decoration: underline;
+    .highlight { font-weight: bold; }
+
+    /* Botões - usando o visual do segundo exemplo */
+    .agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: grey;         /* aparência de desabilitado por padrão */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 8px auto;
+      display: inline-block;
+      text-decoration: none;
+      width: auto;
+      min-width: 140px;
+      text-align: center;
+      transition: background-color .15s ease, transform .06s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
 
-    /* Estilização para dispor os botões em grid */
+    .agendarBtn.enabled {
+      background-color: #491e9c;     /* cor ativa */
+    }
+    .agendarBtn.enabled:hover {
+      background-color: #3a1880;
+      transform: translateY(-1px);
+    }
+
+    /* Botão com duas linhas (quando necessário) */
+    .agendarBtn.two-line {
+      padding: 12px 18px;
+      min-width: 200px;
+      line-height: 1.1;
+    }
+    .agendarBtn .main-text { display:block; font-size:16px; font-weight:bold; }
+    .agendarBtn .sub-text  { display:block; font-size:11px; margin-top:4px; opacity:0.95; font-weight:bold; }
+
     .button-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 14px;
+      align-items: stretch;
     }
 
-    /* Modal Styles */
-    #modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
+    .button-center { text-align:center; }
+
+    /* Checkbox / instrução */
+    .checkbox-section {
+      margin-top: 14px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-size:13px;
     }
+    .checkbox-section input[type="checkbox"] { width:18px; height:18px; }
+
+    /* Modal */
+    #modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color: rgba(0,0,0,0.4); }
     .modal-content {
-      background-color: #fff;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      border-radius: 10px;
-      position: relative;
-      text-align: center;
+      background-color:#fff;
+      margin: 12% auto;
+      padding:20px;
+      border-radius:10px;
+      width:88%;
+      max-width:420px;
+      box-shadow:0 6px 30px rgba(0,0,0,0.12);
+      position:relative;
+      text-align:center;
     }
     .modal-content .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      color: #aaa;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .modal-content .close:hover,
-    .modal-content .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
+      position:absolute; top:10px; right:14px; color:#aaa; font-size:26px; font-weight:bold; cursor:pointer;
     }
     .modal-button {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: #491e9c;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
+      padding:10px 20px; font-size:16px; color:#fff; background:#491e9c; border:none; border-radius:6px; cursor:pointer; margin-top:14px;
+    }
+
+    /* Responsividade */
+    @media (max-width:520px){
+      .button-grid { grid-template-columns: 1fr; }
+      .agendarBtn { min-width: 100%; box-sizing: border-box; }
     }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Dúvidas sobre os serviços</h1>
 
-    <!-- Container dos botões em grid -->
-    <div class="button-grid">
-      <button class="agendarBtn" onclick="agendar('dermatologia.html')">COMO FUNCIONA DERMATOLOGIA?</button>
-      <button class="agendarBtn" onclick="agendar('nutricao.html')">COMO FUNCIONA NUTRIÇÃO?</button>
-      <button class="agendarBtn" onclick="agendar('psicologia.html')">COMO FUNCIONA PSICOLOGIA?</button>
-      <button class="agendarBtn" onclick="agendar('educacaofisica.html')">COMO FUNCIONA TREINADORES?</button>
+    <div class="info-text">
+      <p class="highlight">Antes de acessar as páginas de funcionamento, habilite os botões:</p>
+
+      <div class="checkbox-section" aria-hidden="false">
+        <input id="acceptTerms" type="checkbox" onchange="toggleButton()" />
+        <label for="acceptTerms">Li e concordo em receber informações sobre agendamento (marque para habilitar os botões)</label>
+      </div>
+
+      <!-- Grid de botões -->
+      <div class="button-grid" style="margin-top:18px;">
+        <button class="agendarBtn" onclick="agendar('dermatologia.html')">COMO FUNCIONA DERMATOLOGIA?</button>
+        <button class="agendarBtn" onclick="agendar('nutricao.html')">COMO FUNCIONA NUTRIÇÃO?</button>
+        <button class="agendarBtn" onclick="agendar('psicologia.html')">COMO FUNCIONA PSICOLOGIA?</button>
+        <button class="agendarBtn" onclick="agendar('educacaofisica.html')">COMO FUNCIONA TREINADORES?</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()" aria-label="Fechar">&times;</span>
+      <h3 id="modalTitle">Atenção</h3>
+      <p>Para acessar essa informação, por favor marque a caixa de concordância acima.</p>
+      <button class="modal-button" onclick="closeModal()">Entendi</button>
     </div>
   </div>
 
   <script>
-    function toggleButton() {
+    // Inicializa estado dos botões ao carregar
+    document.addEventListener('DOMContentLoaded', function(){
+      toggleButton();
+      // permitir fechar modal clicando fora
+      window.addEventListener('click', function(e){
+        var modal = document.getElementById('modal');
+        if (e.target === modal) closeModal();
+      });
+      // permitir Enter/Space para ativar checkbox com foco por acessibilidade (nativo na maioria dos navegadores)
+    });
+
+    function toggleButton(){
       var checkBox = document.getElementById('acceptTerms');
       var buttons = document.querySelectorAll('.agendarBtn');
-
-      buttons.forEach(function(button) {
-        if (checkBox.checked) {
+      buttons.forEach(function(button){
+        if (checkBox && checkBox.checked){
           button.classList.add('enabled');
+          // aria
+          button.setAttribute('aria-disabled', 'false');
         } else {
           button.classList.remove('enabled');
+          button.setAttribute('aria-disabled', 'true');
         }
       });
     }
 
-    function agendar(url) {
+    function agendar(url){
       var checkBox = document.getElementById('acceptTerms');
-      if (checkBox.checked) {
+      // se checkbox existe e estiver marcado, navega; caso contrário, abre modal
+      if (checkBox && checkBox.checked){
+        // navegar para página (com proteção caso seja link absoluto)
         window.location.href = url;
       } else {
         showModal();
       }
     }
 
-    function showModal() {
-      document.getElementById('modal').style.display = 'block';
-    }
-
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
+    function showModal(){ document.getElementById('modal').style.display = 'block'; }
+    function closeModal(){ document.getElementById('modal').style.display = 'none'; }
   </script>
-
 </body>
 </html>
