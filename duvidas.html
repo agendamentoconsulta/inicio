@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin-top: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    h1 {
+      color: #491e9c;
+      text-align: center;
+      font-size: 30.5px;
+      margin-top: 0;
+    }
+
+    .info-text, .terms {
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: justify;
+    }
+
+    .agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: grey;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .agendarBtn.enabled {
+      background-color: #491e9c;
+      cursor: pointer;
+    }
+
+    .checkbox-section {
+      margin-top: 20px;
+    }
+
+    a {
+      color: #491e9c;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Estilização para dispor os botões em grid */
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Modal Styles */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modal-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #491e9c;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Dúvidas sobre os serviços</h1>
+
+    <!-- Container dos botões em grid -->
+    <div class="button-grid">
+      <button class="agendarBtn" onclick="agendar('dermatologia.html')">COMO FUNCIONA DERMATOLOGIA?</button>
+      <button class="agendarBtn" onclick="agendar('nutricao.html')">COMO FUNCIONA NUTRIÇÃO?</button>
+      <button class="agendarBtn" onclick="agendar('psicologia.html')">COMO FUNCIONA PSICOLOGIA?</button>
+      <button class="agendarBtn" onclick="agendar('educacaofisica.html')">COMO FUNCIONA TREINADORES?</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleButton() {
+      var checkBox = document.getElementById('acceptTerms');
+      var buttons = document.querySelectorAll('.agendarBtn');
+
+      buttons.forEach(function(button) {
+        if (checkBox.checked) {
+          button.classList.add('enabled');
+        } else {
+          button.classList.remove('enabled');
+        }
+      });
+    }
+
+    function agendar(url) {
+      var checkBox = document.getElementById('acceptTerms');
+      if (checkBox.checked) {
+        window.location.href = url;
+      } else {
+        showModal();
+      }
+    }
+
+    function showModal() {
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
