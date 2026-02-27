@@ -139,13 +139,14 @@
       <input type="checkbox" id="acceptTerms" onclick="toggleButton()"> Ao agendar, declaro que li e aceito as normas acima.
     </p>
 
-    <!-- Container dos botões em grid -->
+    <!-- Container dos botões em grid (ordenados alfabeticamente) -->
     <div class="button-grid">
       <button class="agendarBtn" onclick="agendar('dermato.html')">Dermatologia</button>
+      <button class="agendarBtn" onclick="agendar('gineco.html')">Ginecologia</button>
       <button class="agendarBtn" onclick="agendar('treinador_nutri.html')">Nutrição</button>
       <button class="agendarBtn" onclick="agendar('psico.html')">Psicologia</button>
       <button class="agendarBtn" onclick="agendar('treinador_nutri.html')">Treinador</button>
-      <button class="agendarBtn" onclick="agendar('gineco.html')">Ginecologia</button>
+      <button class="agendarBtn" onclick="emBreve()">Em breve mais...</button>
     </div>
   </div>
 
@@ -187,6 +188,12 @@
 
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
+    }
+
+    // Botão "Em breve mais..." NÃO faz nada (mantém aparência idêntica)
+    function emBreve() {
+      // Intencionalmente vazio — o botão não redireciona nem abre modal
+      return;
     }
   </script>
 
