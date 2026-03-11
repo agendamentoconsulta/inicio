@@ -5,88 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendamento Psicologia</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      margin-top: 0;
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      text-align: left;
-    }
-    h1 {
-      color: #4c69df;
-      text-align: center;
-      font-size: 30.5px;
-      margin-top: 0;
-      font-weight: bold;
-    }
-    .info-text {
-      font-size: 14px;
-      margin-top: 20px;
-      text-align: justify;
-    }
-    a {
-      color: #4c69df;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .highlight {
-      font-weight: bold;
-    }
-    .agendarBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-      background-color: #4c69df;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 10px auto;
-      display: inline-block;
-      text-decoration: none;
-      width: auto;
-      min-width: 120px;
-    }
-    .agendarBtn:hover {
-      background-color: #3a1880;
-    }
-    
-    /* Estilo específico para o botão com texto duplo */
-    .agendarBtn.two-line {
-      padding: 12px 20px;
-      min-width: 200px;
-      line-height: 1.2;
-    }
-    
-    .agendarBtn .main-text {
-      display: block;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    
-    .agendarBtn .sub-text {
-      display: block;
-      font-size: 11px;
-      font-weight: bold;
-      margin-top: 2px;
-      opacity: 0.9;
-    }
-    
-    .button-center {
-      text-align: center;
-      margin: 15px 0;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; margin-top: 0; }
+    .container { max-width: 500px; margin: 0 auto; text-align: left; }
+    h1 { color: #4c69df; text-align: center; font-size: 30.5px; margin-top: 0; font-weight: bold; }
+    .info-text { font-size: 14px; margin-top: 20px; text-align: justify; }
+    a { color: #4c69df; text-decoration: none; } a:hover { text-decoration: underline; }
+    .highlight { font-weight: bold; }
+    .agendarBtn { padding: 10px 20px; font-size: 16px; font-weight: bold; color: white; background-color: #4c69df; border: none; border-radius: 5px; cursor: pointer; margin: 10px auto; display: inline-block; text-decoration: none; width: auto; min-width: 120px; }
+    .agendarBtn:hover { background-color: #3a1880; }
+    .agendarBtn.two-line { padding: 12px 20px; min-width: 200px; line-height: 1.2; }
+    .agendarBtn .main-text { display:block; font-size:16px; font-weight:bold; }
+    .agendarBtn .sub-text { display:block; font-size:11px; font-weight:bold; margin-top:2px; opacity:0.9; }
+    .button-center { text-align:center; margin:15px 0; }
 
-    /* -------------------------
-       Floating support button
-       Scoped to avoid conflicts
-       ------------------------- */
+    /* ========== Floating support button (scoped) ========== */
     #floatingSupportBtn_psy {
       position: fixed;
       right: 18px;
@@ -100,7 +32,7 @@
       background: #ffffff;
       border: 3px solid #4c69df;
       box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-      z-index: 99999; /* bem alto para ficar sobre tudo */
+      z-index: 99999;
       cursor: pointer;
       transition: transform .12s ease, box-shadow .12s ease;
     }
@@ -108,18 +40,19 @@
     #floatingSupportBtn_psy svg { width: 28px; height: 28px; display:block; fill: #4c69df; }
     .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
 
-    /* -------------------------
-       Support modal (very scoped)
-       ID = supportModal_psy
-       ------------------------- */
+    /* ========== Support modal (fixed full-viewport + centered) ========== */
     #supportModal_psy {
-      display: none; /* hidden by default */
+      display: none;             /* shown by JS as 'flex' */
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0,0,0,0.45);
       z-index: 100000;
-      align-items: center;
-      justify-content: center;
+      box-sizing: border-box;
+      align-items: center;      /* vertical centering */
+      justify-content: center;  /* horizontal centering */
       padding: 20px;
     }
     #supportModal_psy .modal-box {
@@ -130,6 +63,9 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       padding: 18px;
       position: relative;
+      margin: 0; /* important: no top-margin that could push it down */
+      max-height: calc(100vh - 40px);
+      overflow: auto; /* garante que o conteúdo role em telas pequenas */
       text-align: left;
     }
     #supportModal_psy .modal-title { font-size: 16px; font-weight: bold; color:#222; }
@@ -153,31 +89,23 @@
     <img src="cartaotal.webp" alt="Logo" style="display:block; margin:10px auto; max-width:200px;">
     <div class="info-text">
       <p><span class="highlight">Para agendar para o titular da conta, clique no botão abaixo:</span></p>
-      
       <div class="button-center">
         <a href="https://tinyurl.com/psiZAPmq" class="agendarBtn">AGENDAR PARA MIM</a>
       </div>
-      
+
       <p><span class="highlight">Agendamento de psicologia NÃO DISPONÍVEL para DEPENDENTES:</span></p>
-      
       <div class="button-center">
-        <!--
-          Mantive exatamente o botão original que abre o modal de dependente.
-          NÃO alterei o id/nome do modal existente (presumo que seja "modal").
-          Se seu modal original tiver outro id, mantenha-o; este arquivo preserva
-          o comportamento original (não o substituí).
-        -->
         <button class="agendarBtn two-line" onclick="showModal()">
           <span class="main-text">AGENDAR PARA MEU FILHO(A)</span>
           <span class="sub-text">❗INDISPONÍVEL (APENAS EM PSICOLOGIA)❗</span>
         </button>
       </div>
-      
+
       <p><span class="highlight">Para gerenciar seus agendamentos, clique aqui:</span></p>
       <div class="button-center">
         <a href="https://whatsa.me/5534997758727" class="agendarBtn">GERENCIAR</a>
       </div>
-      
+
       <p><span class="highlight">Tem dúvidas sobre o funcionamento do serviço? Acesse os termos clicando abaixo:</span></p>
       <div class="button-center">
         <button class="agendarBtn" onclick="agendar('psicologia.html')">COMO FUNCIONA?</button>
@@ -185,10 +113,7 @@
     </div>
   </div>
 
-  <!-- ========== EXISTING DEPENDENT MODAL (kept intact) ==========
-       IMPORTANT: não modifiquei este bloco — é o modal original do site.
-       Caso o seu original esteja diferente, cole o mesmo bloco aqui.
-       ================================================================= -->
+  <!-- ========== EXISTING DEPENDENT MODAL (mantido exatamente) ========== -->
   <div id="modal" style="display:none;">
     <div class="modal-content" style="background:#fff; margin:15% auto; padding:20px; border:1px solid #888; width:80%; max-width:400px; border-radius:10px; position:relative; text-align:center;">
       <span class="close" onclick="closeModal()" style="position:absolute; top:10px; right:15px; color:#aaa; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
@@ -197,7 +122,7 @@
     </div>
   </div>
 
-  <!-- ========== FLOATING SUPPORT BUTTON (isolated) ========== -->
+  <!-- ========== FLOATING SUPPORT BUTTON ========== -->
   <button id="floatingSupportBtn_psy" aria-label="Abrir suporte (link externo)" title="Suporte">
     <span class="visually-hidden">Abrir suporte (link externo)</span>
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -205,7 +130,7 @@
     </svg>
   </button>
 
-  <!-- ========== SUPPORT CONFIRMATION MODAL (scoped ID) ========== -->
+  <!-- ========== SUPPORT CONFIRMATION MODAL (scoped) ========== -->
   <div id="supportModal_psy" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle_psy" tabindex="-1">
     <div class="modal-box" role="document">
       <button class="modal-close" id="supportClose_psy" aria-label="Fechar">✕</button>
@@ -220,9 +145,8 @@
 
   <script>
     /* -------------------------
-       Keep original modal behavior intact
-       (dependents modal) - do not change names/handlers
-       ------------------------------------------------- */
+       Dependents modal (original behavior preserved)
+       ------------------------- */
     function showModal() {
       var m = document.getElementById('modal');
       if (m) m.style.display = 'block';
@@ -231,7 +155,6 @@
       var m = document.getElementById('modal');
       if (m) m.style.display = 'none';
     }
-    // Optional: preserve original click-outside behaviour for the dependent modal
     (function preserveOriginalCloseOnClickOutside(){
       var dependentModal = document.getElementById('modal');
       if (!dependentModal) return;
@@ -240,13 +163,10 @@
       });
     })();
 
-    function agendar(pagina) {
-      window.location.href = pagina;
-    }
+    function agendar(pagina) { window.location.href = pagina; }
 
     /* -------------------------
-       Support button + modal logic
-       Scoped and safe (no globals)
+       Support widget (fully scoped)
        ------------------------- */
     (function supportWidget_psy(){
       var SUPPORT_URL = "https://suportemediquo.netlify.app/";
@@ -257,15 +177,14 @@
       var btnClose = document.getElementById('supportClose_psy');
       var lastFocused = null;
 
-      if (!btn || !modal) return; // fail safe
+      if (!btn || !modal) return;
 
       function openSupportModal() {
         lastFocused = document.activeElement;
+        // explicitly use flex to center the modal
         modal.style.display = 'flex';
-        // block background scroll on mobile
         document.body.style.overflow = 'hidden';
-        // focus confirm for accessibility
-        btnConfirm && btnConfirm.focus();
+        if (btnConfirm) btnConfirm.focus();
       }
       function closeSupportModal() {
         modal.style.display = 'none';
@@ -284,20 +203,13 @@
         closeSupportModal();
       });
 
-      btnCancel.addEventListener('click', function(){
-        closeSupportModal();
-      });
+      btnCancel.addEventListener('click', closeSupportModal);
+      btnClose.addEventListener('click', closeSupportModal);
 
-      btnClose.addEventListener('click', function(){
-        closeSupportModal();
-      });
-
-      // close when clicking on overlay of support modal only
       modal.addEventListener('click', function(e){
         if (e.target === modal) closeSupportModal();
       });
 
-      // Escape closes support modal (but scoped)
       document.addEventListener('keydown', function(e){
         if (e.key === 'Escape' && modal.style.display === 'flex') {
           closeSupportModal();
