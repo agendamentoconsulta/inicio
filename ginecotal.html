@@ -17,7 +17,7 @@
       text-align: left;
     }
     h1 {
-      color: #491e9c;
+      color: #4c69df;
       text-align: center;
       font-size: 30.5px;
       margin-top: 0;
@@ -29,7 +29,7 @@
       text-align: justify;
     }
     a {
-      color: #491e9c;
+      color: #4c69df;
       text-decoration: none;
     }
     a:hover {
@@ -43,7 +43,7 @@
       font-size: 16px;
       font-weight: bold;
       color: white;
-      background-color: #491e9c;
+      background-color: #4c69df;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -73,7 +73,7 @@
       align-items: center;
       justify-content: center;
       background: #ffffff;
-      border: 3px solid #4c69df; /* cor solicitada */
+      border: 3px solid #4c69df;
       box-shadow: 0 6px 18px rgba(0,0,0,0.18);
       z-index: 9999;
       cursor: pointer;
@@ -84,14 +84,13 @@
       outline: none;
       box-shadow: 0 6px 18px rgba(76,105,223,0.28);
     }
-    /* Icon color is the requested hex */
     .floating-support-btn svg {
       width: 28px;
       height: 28px;
       display: block;
-      fill: #4c69df; /* ícone na cor solicitada */
+      fill: #4c69df;
     }
-    /* small label for screen readers (visually hidden) */
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -103,11 +102,11 @@
       border: 0;
     }
 
-    /* ===== Modal (confirmation popup) ===== */
+    /* ===== Modal ===== */
     .support-modal {
-      display: none; /* hidden by default */
+      display: none;
       position: fixed;
-      inset: 0; /* top:0;right:0;bottom:0;left:0; */
+      inset: 0;
       background: rgba(0,0,0,0.45);
       z-index: 10000;
       align-items: center;
@@ -122,11 +121,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       padding: 18px;
       position: relative;
-    }
-    .support-modal .modal-header {
-      display:flex;
-      align-items: center;
-      gap:10px;
     }
     .support-modal .modal-title {
       font-size: 16px;
@@ -169,11 +163,10 @@
       color: #333;
     }
     .support-modal .btn-confirm {
-      background: #4c69df; /* cor solicitada */
+      background: #4c69df;
       color: #fff;
     }
 
-    /* mobile adjustments */
     @media (max-width:420px) {
       .floating-support-btn { right: 14px; bottom: 14px; width:54px; height:54px; }
       .support-modal .modal-box { padding: 14px; border-radius: 10px; }
@@ -184,6 +177,10 @@
 <body>
   <div class="container">
     <h1>Agendamento Ginecologia</h1>
+
+    <!-- LOGO ADICIONADA -->
+    <img src="cartaotal.webp" alt="Logo" style="display:block; margin:10px auto; max-width:200px;">
+
     <div class="info-text">
       <p><span class="highlight">Para agendar para o titular da conta, clique no botão abaixo:</span></p>
 
@@ -209,102 +206,66 @@
     </div>
   </div>
 
-  <!-- ===== Floating support button ===== -->
-  <button
-    class="floating-support-btn"
-    id="floatingSupportBtn"
-    aria-label="Abrir suporte (link externo)"
-    title="Suporte"
-  >
-    <span class="sr-only">Abrir suporte (link externo)</span>
-    <!-- Headset / suporte icon (SVG) - ícone na cor #4c69df -->
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 1a9 9 0 0 0-9 9v3a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H6a6 6 0 0 1 12 0h-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1a3 3 0 0 0 3-3v-3a9 9 0 0 0-9-9zM6 14v-1a6 6 0 0 1 12 0v1a1 1 0 0 1-1 1h-1v-4a3 3 0 0 0-3-3 3 3 0 0 0-3 3v4H7a1 1 0 0 1-1-1z"/>
+  <!-- BOTÃO FLUTUANTE SUPORTE -->
+  <button class="floating-support-btn" id="floatingSupportBtn">
+    <span class="sr-only">Abrir suporte</span>
+    <svg viewBox="0 0 24 24">
+      <path d="M12 1a9 9 0 0 0-9 9v3a3 3 0 0 0 3 3h1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H6a6 6 0 0 1 12 0h-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1a3 3 0 0 0 3-3v-3a9 9 0 0 0-9-9z"/>
     </svg>
   </button>
 
-  <!-- ===== Support confirmation modal ===== -->
-  <div class="support-modal" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportModalTitle" tabindex="-1">
-    <div class="modal-box" role="document">
-      <button class="modal-close" id="supportClose" aria-label="Fechar">✕</button>
-      <div class="modal-header">
-        <div class="modal-title" id="supportModalTitle">Você está sendo redirecionado</div>
-      </div>
+  <!-- MODAL -->
+  <div class="support-modal" id="supportModal">
+    <div class="modal-box">
+      <button class="modal-close" id="supportClose">✕</button>
+      <div class="modal-title">Você está sendo redirecionado</div>
       <div class="modal-body">
         Você está sendo redirecionado para o site externo de suporte. Confirma sua ação?
       </div>
       <div class="modal-actions">
-        <button class="btn btn-cancel" id="supportCancel" type="button">NÃO</button>
-        <button class="btn btn-confirm" id="supportConfirm" type="button">SIM</button>
+        <button class="btn btn-cancel" id="supportCancel">NÃO</button>
+        <button class="btn btn-confirm" id="supportConfirm">SIM</button>
       </div>
     </div>
   </div>
 
   <script>
-    // URL de suporte (abre em nova aba quando confirmado)
     const SUPPORT_URL = "https://suportemediquo.netlify.app/";
-
     const floatingBtn = document.getElementById('floatingSupportBtn');
     const modal = document.getElementById('supportModal');
     const confirmBtn = document.getElementById('supportConfirm');
     const cancelBtn = document.getElementById('supportCancel');
     const closeBtn = document.getElementById('supportClose');
 
-    // keep track of previously focused element to restore focus after modal close
-    let previouslyFocusedElement = null;
-
     function openModal() {
-      previouslyFocusedElement = document.activeElement;
       modal.style.display = 'flex';
-      // prevent background scroll on mobile
       document.body.style.overflow = 'hidden';
-      // set focus to the confirm button for accessibility
       confirmBtn.focus();
     }
 
     function closeModal() {
       modal.style.display = 'none';
       document.body.style.overflow = '';
-      // restore focus
-      if (previouslyFocusedElement && previouslyFocusedElement.focus) {
-        previouslyFocusedElement.focus();
-      } else {
-        floatingBtn.focus();
-      }
     }
 
-    floatingBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      openModal();
-    });
+    floatingBtn.addEventListener('click', openModal);
 
     confirmBtn.addEventListener('click', function () {
-      // open in a new tab
       window.open(SUPPORT_URL, '_blank', 'noopener');
       closeModal();
     });
 
-    cancelBtn.addEventListener('click', function () {
-      closeModal();
-    });
+    cancelBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
 
-    closeBtn.addEventListener('click', function () {
-      closeModal();
-    });
-
-    // Close modal when clicking outside modal dialog
     modal.addEventListener('click', function (e) {
       if (e.target === modal) closeModal();
     });
 
-    // Close on Escape
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.style.display === 'flex') {
-        closeModal();
-      }
+      if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
     });
 
-    // Existing function kept intact
     function agendar(pagina) {
       window.location.href = pagina;
     }
