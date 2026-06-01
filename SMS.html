@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atendimento e Acesso</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      background: #fff;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      padding: 8px;
+    }
+
+    h1 {
+      color: #491e9c;
+      text-align: center;
+      font-size: 30.5px;
+      margin: 8px 0 16px;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0 0 8px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 18px;
+      align-items: stretch;
+    }
+
+    .agendarBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background-color: #491e9c;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 8px auto;
+      display: inline-block;
+      text-decoration: none;
+      width: auto;
+      min-width: 160px;
+      text-align: center;
+      transition: background-color 0.15s ease, transform 0.06s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .agendarBtn:hover {
+      background-color: #3a1880;
+      transform: translateY(-1px);
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .button-wrapper {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 520px) {
+      .agendarBtn {
+        min-width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Atendimento e Acesso</h1>
+
+    <div class="section">
+      <p>Para verificar seus agendamentos, cancelar ou remarcar, clique no botão abaixo:</p>
+      <div class="button-wrapper">
+        <a class="agendarBtn" href="https://painel-agendazap.vercel.app/" target="_blank" rel="noopener noreferrer">PAINEL</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <p>Caso tenha dúvidas de como iniciar a consulta ou outras dúvidas diversas, acesse:</p>
+      <div class="button-wrapper">
+        <a class="agendarBtn" href="https://inicio-beta-virid.vercel.app/duvidas.html" target="_blank" rel="noopener noreferrer">DÚVIDAS</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <p>Para abrir um chamado no suporte, clique abaixo:</p>
+      <div class="button-wrapper">
+        <a class="agendarBtn" href="https://suportemediquo.netlify.app/" target="_blank" rel="noopener noreferrer">SUPORTE</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
